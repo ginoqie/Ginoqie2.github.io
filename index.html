@@ -102,7 +102,6 @@
     .avail-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #22c55e; animation: pdot 2s ease-in-out infinite; margin-right: 0.3rem; }
     @keyframes pdot { 0%,100%{opacity:1} 50%{opacity:0.35} }
 
-    /* FLOATING GLOWING NAME */
     .hero-name {
       font-size: clamp(4rem,10vw,9rem);
       font-weight: 800;
@@ -182,7 +181,7 @@
     .role-title { font-weight: 700; font-size: 0.9rem; margin-bottom: 0.3rem; }
     .role-desc { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); line-height: 1.65; }
 
-    /* SERVICES / OFFER SECTION */
+    /* SERVICES */
     #services { background: var(--bg); }
     .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; max-width: 1100px; }
     .service-card { background: var(--bg2); padding: 1.8rem; transition: background 0.25s; position: relative; }
@@ -191,7 +190,6 @@
     .service-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.4rem; }
     .service-desc { font-family: var(--mono); font-size: 0.76rem; color: var(--muted); line-height: 1.7; }
 
-    /* OFFER TERMS */
     .offer-terms { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; max-width: 1100px; margin-top: 2rem; }
     .term-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 1.2rem 1.4rem; }
     .term-label { font-family: var(--mono); font-size: 0.6rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 0.35rem; }
@@ -199,18 +197,15 @@
 
     /* PROJECTS */
     #projects { background: var(--bg2); }
-
     .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
     .project-card { background: var(--bg2); transition: background 0.25s; }
     .project-card:hover { background: var(--bg3); }
-
     .project-thumb-placeholder { width: 100%; aspect-ratio: 16/9; background: var(--bg3); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
     .project-thumb-placeholder .grid-overlay { position: absolute; inset: 0; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 30px 30px; }
     .project-thumb-placeholder .play-icon { position: relative; z-index: 1; font-size: 2rem; color: var(--muted); opacity: 0.35; }
     .project-card video { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
     .yt-wrap { position: relative; width: 100%; aspect-ratio: 16/9; background: var(--bg3); overflow: hidden; }
     .yt-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; display: block; }
-
     .project-info { padding: 1.4rem; border-top: 1px solid var(--border); }
     .project-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.7rem; }
     .tag { font-family: var(--mono); font-size: 0.62rem; background: rgba(255,255,255,0.04); color: var(--muted); border: 1px solid var(--border); padding: 0.18rem 0.55rem; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.07em; }
@@ -244,6 +239,71 @@
     .skill-fill { height: 100%; background: var(--text); transform-origin: left; animation: fillbar 1.4s cubic-bezier(0.16,1,0.3,1) both; }
     @keyframes fillbar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
+    /* ── SATISFIED CUSTOMERS ── */
+    #customers { background: var(--bg); }
+    .customers-intro { font-family: var(--mono); font-size: 0.86rem; color: var(--muted); line-height: 1.85; margin-bottom: 2.5rem; max-width: 680px; }
+    .customers-intro strong { color: var(--text); }
+
+    .customers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1rem;
+      max-width: 1100px;
+    }
+
+    .customer-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      transition: border-color 0.25s, transform 0.25s, background 0.25s;
+    }
+    .customer-card:hover {
+      border-color: rgba(255,255,255,0.18);
+      background: var(--bg3);
+      transform: translateY(-3px);
+    }
+
+    /* subtle green glow on top edge — nod to the Discord green reactions */
+    .customer-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(34,197,94,0.5), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .customer-card:hover::before { opacity: 1; }
+
+    .customer-screenshot {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .customer-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.85rem 1.1rem;
+      border-top: 1px solid var(--border);
+    }
+    .badge-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #22c55e;
+      flex-shrink: 0;
+      animation: pdot 2s ease-in-out infinite;
+    }
+    .badge-text {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+
     /* CONTACT */
     #contact { background: var(--bg2); }
     .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; max-width: 1000px; align-items: start; }
@@ -251,7 +311,6 @@
     .contact-links { display: flex; flex-direction: column; gap: 0.7rem; }
     .contact-link { display: flex; align-items: center; gap: 1rem; font-family: var(--mono); font-size: 0.82rem; color: var(--muted); text-decoration: none; border: 1px solid var(--border); border-radius: 6px; padding: 0.9rem 1.2rem; transition: border-color 0.2s, color 0.2s, transform 0.2s; cursor: none; }
     .contact-link:hover { border-color: rgba(255,255,255,0.18); color: var(--text); transform: translateX(4px); }
-
     .contact-meta { display: flex; flex-direction: column; gap: 0.7rem; }
     .meta-card { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 1.3rem 1.5rem; }
     .meta-label { font-family: var(--mono); font-size: 0.62rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 0.35rem; }
@@ -283,7 +342,6 @@
 </head>
 <body>
 
-  <!-- CURSOR ELEMENTS -->
   <div id="cursor-glow"></div>
   <div id="cursor-dot"></div>
 
@@ -295,6 +353,7 @@
       <li><a href="#projects">Demos</a></li>
       <li><a href="#maps">Maps</a></li>
       <li><a href="#skills">Skills</a></li>
+      <li><a href="#customers">Reviews</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
@@ -305,7 +364,7 @@
     <div class="hero-orb orb2"></div>
     <div class="hero-tag"><span class="avail-dot"></span>Available for short-term projects</div>
     <h1 class="hero-name"><span class="glow-text">Gino</span><span class="dim">qie</span></h1>
-    <p class="hero-sub">Roblox Game Developer — building FPS systems, parkour mechanics, advanced movement, monster AI, GUI, and immersive game experiences in Roblox Studio.</p>
+    <p class="hero-sub">Roblox Game Developer, building FPS systems, parkour mechanics, advanced movement, monster AI, GUI, and immersive game experiences in Roblox Studio.</p>
     <div class="hero-ctas">
       <a href="#projects" class="btn btn-primary">View Projects →</a>
       <a href="#contact" class="btn btn-secondary">Contact Me</a>
@@ -319,10 +378,10 @@
       <div class="about-text">
         <div class="section-label">Who I am</div>
         <h2 class="section-title">About Me</h2>
-        <p>I'm <strong>Ginoqie</strong> — a dedicated Roblox game developer with over <strong>1 year of hands-on experience</strong> building systems, mechanics, and experiences inside Roblox Studio.</p>
+        <p>I'm <strong>Ginoqie</strong>, a dedicated Roblox game developer with over <strong>1 year of hands-on experience</strong> building systems, mechanics, and experiences inside Roblox Studio.</p>
         <p>My core focus is <strong>Roblox game development</strong>. I build things like FPS systems, parkour, advanced movement, NPC AI, monster AI, GUI/UI, loading screens, and game mechanics that feel good to play.</p>
-        <p>I also created a <strong>Brainrot Template</strong> and an NPC system inspired by Forge's NPC system. On the creative side, I handle <strong>thumbnails, posters, and VFX</strong> — making sure games look and feel polished from start to finish.</p>
-        <p>I'm a <strong>short-term scripter</strong> — I take focused, scoped projects and deliver within a maximum of one week. No long commitments, just clean and fast results.</p>
+        <p>I also created a <strong>Brainrot Template</strong> and an NPC system inspired by Forge's NPC system. On the creative side, I handle <strong>thumbnails, posters, and VFX</strong>, making sure games look and feel polished from start to finish.</p>
+        <p>I'm a <strong>short-term scripter</strong>. I take focused, scoped projects and deliver within a maximum of one week. No long commitments, just clean and fast results.</p>
       </div>
       <div>
         <div class="about-stats">
@@ -333,7 +392,7 @@
         </div>
         <div class="about-roles">
           <div class="role-item"><div class="role-title">🎮 Game Developer</div><div class="role-desc">Building full gameplay systems from mechanics to UI inside Roblox Studio.</div></div>
-          <div class="role-item"><div class="role-title">🤖 AI & NPC Scripter</div><div class="role-desc">Monster AI, NPC systems similar to Forge — smart, reactive, and smooth.</div></div>
+          <div class="role-item"><div class="role-title">🤖 AI & NPC Scripter</div><div class="role-desc">Monster AI, NPC systems similar to Forge: smart, reactive, and smooth.</div></div>
           <div class="role-item"><div class="role-title">🎨 Visual Creator</div><div class="role-desc">Thumbnails, game posters, GUI/UI design, loading screens, and VFX work.</div></div>
         </div>
       </div>
@@ -345,98 +404,24 @@
     <div class="section-label fade-up">What I offer</div>
     <h2 class="section-title fade-up">Services</h2>
     <div class="services-grid fade-up">
-
-      <div class="service-card">
-        <div class="service-icon">🔫</div>
-        <div class="service-title">FPS System</div>
-        <div class="service-desc">Custom first-person shooter systems with smooth gunplay, hit detection, and animations built for Roblox.</div>
-      </div>
-
-      <div class="service-card">
-        <div class="service-icon">🏃</div>
-        <div class="service-title">Parkour System</div>
-        <div class="service-desc">Fluid parkour mechanics — wall-running, vaulting, sliding — that feel responsive and satisfying.</div>
-      </div>
-
-      <div class="service-card">
-        <div class="service-icon">⚡</div>
-        <div class="service-title">Advanced Movement</div>
-        <div class="service-desc">Full-featured advanced movement systems with custom physics and feel beyond default Roblox movement.</div>
-      </div>
-
-      <div class="service-card">
-        <div class="service-icon">🧠</div>
-        <div class="service-title">Monster AI</div>
-        <div class="service-desc">Intelligent monster AI with pathfinding, detection, chase logic, and attack patterns for horror or combat games.</div>
-      </div>
-
-      <div class="service-card">
-        <div class="service-icon">🤖</div>
-        <div class="service-title">NPC System</div>
-        <div class="service-desc">NPC systems inspired by Forge's NPC — reactive, scalable, and modular for any game genre.</div>
-      </div>
-
-      <div class="service-card">
-        <div class="service-icon">🖥️</div>
-        <div class="service-title">GUI & UI Design</div>
-        <div class="service-desc">Clean and polished GUI/UI systems — menus, HUDs, inventories, and interactive elements that look and feel great.</div>
-      </div>
-
-      <div class="service-card">
-        <div class="service-icon">🔧</div>
-        <div class="service-title">Debugging</div>
-        <div class="service-desc">Fast and thorough debugging — I can identify and fix issues in existing scripts and broken systems.</div>
-      </div>
-
-      <div class="service-card">
-        <div class="service-icon">⚙️</div>
-        <div class="service-title">Game Mechanics</div>
-        <div class="service-desc">Solid, well-built game mechanics — combat, interactions, triggers, and custom gameplay loops.</div>
-      </div>
-
-      <div class="service-card">
-        <div class="service-icon">🌀</div>
-        <div class="service-title">Loading Screens</div>
-        <div class="service-desc">Animated and stylish loading screens that set the mood and give your game a professional feel from the first second.</div>
-      </div>
-
-      <div class="service-card">
-        <div class="service-icon">✨</div>
-        <div class="service-title">VFX</div>
-        <div class="service-desc">Moderate visual effects — particles, hit effects, environment details, and atmospheric visuals (best results on simple VFX).</div>
-      </div>
-
-      <div class="service-card">
-        <div class="service-icon">🖼️</div>
-        <div class="service-title">Thumbnails & Posters</div>
-        <div class="service-desc">Eye-catching Roblox game thumbnails and promotional posters that get clicks and represent your game well.</div>
-      </div>
-
-      <div class="service-card">
-        <div class="service-icon">🧟</div>
-        <div class="service-title">Brainrot Template</div>
-        <div class="service-desc">Creator of the Brainrot Template — a ready-to-use game template built for rapid Roblox game development.</div>
-      </div>
-
+      <div class="service-card"><div class="service-icon">🔫</div><div class="service-title">FPS System</div><div class="service-desc">Custom first-person shooter systems with smooth gunplay, hit detection, and animations built for Roblox.</div></div>
+      <div class="service-card"><div class="service-icon">🏃</div><div class="service-title">Parkour System</div><div class="service-desc">Fluid parkour mechanics: wall-running, vaulting, sliding, all feeling responsive and satisfying.</div></div>
+      <div class="service-card"><div class="service-icon">⚡</div><div class="service-title">Advanced Movement</div><div class="service-desc">Full-featured advanced movement systems with custom physics and feel beyond default Roblox movement.</div></div>
+      <div class="service-card"><div class="service-icon">🧠</div><div class="service-title">Monster AI</div><div class="service-desc">Intelligent monster AI with pathfinding, detection, chase logic, and attack patterns for horror or combat games.</div></div>
+      <div class="service-card"><div class="service-icon">🤖</div><div class="service-title">NPC System</div><div class="service-desc">NPC systems inspired by Forge's NPC: reactive, scalable, and modular for any game genre.</div></div>
+      <div class="service-card"><div class="service-icon">🖥️</div><div class="service-title">GUI & UI Design</div><div class="service-desc">Clean and polished GUI/UI systems: menus, HUDs, inventories, and interactive elements that look and feel great.</div></div>
+      <div class="service-card"><div class="service-icon">🔧</div><div class="service-title">Debugging</div><div class="service-desc">Fast and thorough debugging. I can identify and fix issues in existing scripts and broken systems.</div></div>
+      <div class="service-card"><div class="service-icon">⚙️</div><div class="service-title">Game Mechanics</div><div class="service-desc">Solid, well-built game mechanics: combat, interactions, triggers, and custom gameplay loops.</div></div>
+      <div class="service-card"><div class="service-icon">🌀</div><div class="service-title">Loading Screens</div><div class="service-desc">Animated and stylish loading screens that set the mood and give your game a professional feel from the first second.</div></div>
+      <div class="service-card"><div class="service-icon">✨</div><div class="service-title">VFX</div><div class="service-desc">Moderate visual effects: particles, hit effects, environment details, and atmospheric visuals (best results on simple VFX).</div></div>
+      <div class="service-card"><div class="service-icon">🖼️</div><div class="service-title">Thumbnails & Posters</div><div class="service-desc">Eye-catching Roblox game thumbnails and promotional posters that get clicks and represent your game well.</div></div>
+      <div class="service-card"><div class="service-icon">🧟</div><div class="service-title">Brainrot Template</div><div class="service-desc">Creator of the Brainrot Template, a ready-to-use game template built for rapid Roblox game development.</div></div>
     </div>
-
     <div class="offer-terms fade-up">
-      <div class="term-card">
-        <div class="term-label">Project Type</div>
-        <div class="term-value">Short-term only</div>
-      </div>
-      <div class="term-card">
-        <div class="term-label">Delivery Time</div>
-        <div class="term-value">Max 1 week</div>
-      </div>
-      <div class="term-card">
-        <div class="term-label">Focus</div>
-        <div class="term-value">Roblox Game Dev</div>
-      </div>
-      <div class="term-card">
-        <div class="term-label">Availability</div>
-        <div class="term-value"><span class="status-dot"></span>Open now</div>
-      </div>
+      <div class="term-card"><div class="term-label">Project Type</div><div class="term-value">Short-term only</div></div>
+      <div class="term-card"><div class="term-label">Delivery Time</div><div class="term-value">Max 1 week</div></div>
+      <div class="term-card"><div class="term-label">Focus</div><div class="term-value">Roblox Game Dev</div></div>
+      <div class="term-card"><div class="term-label">Availability</div><div class="term-value"><span class="status-dot"></span>Open now</div></div>
     </div>
   </section>
 
@@ -444,25 +429,18 @@
   <section id="projects">
     <div class="section-label">What I've built</div>
     <h2 class="section-title">System Demos</h2>
-
     <div class="projects-grid">
-
       <div class="project-card">
-        <div class="yt-wrap">
-          <iframe src="https://www.youtube.com/embed/h35A5DUmMfE" title="Parkour Movement" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
+        <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/h35A5DUmMfE" title="Parkour Movement" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
         <div class="project-info">
           <div class="project-tags"><span class="tag">Parkour</span><span class="tag">Movement</span></div>
           <div class="project-name">Parkour Movement</div>
-          <p class="project-desc">Fluid parkour movement system with smooth transitions — wall-running, vaulting, and more.</p>
+          <p class="project-desc">Fluid parkour movement system with smooth transitions: wall-running, vaulting, and more.</p>
           <a href="https://youtu.be/h35A5DUmMfE" target="_blank" class="project-link">Watch on YouTube →</a>
         </div>
       </div>
-
       <div class="project-card">
-        <div class="yt-wrap">
-          <iframe src="https://www.youtube.com/embed/ePffzsfqnmI" title="Ledge Climbing" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
+        <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/ePffzsfqnmI" title="Ledge Climbing" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
         <div class="project-info">
           <div class="project-tags"><span class="tag">Ledge Climbing</span><span class="tag">Mechanics</span></div>
           <div class="project-name">Ledge Climbing</div>
@@ -470,35 +448,26 @@
           <a href="https://youtu.be/ePffzsfqnmI" target="_blank" class="project-link">Watch on YouTube →</a>
         </div>
       </div>
-
       <div class="project-card">
-        <div class="yt-wrap">
-          <iframe src="https://www.youtube.com/embed/4IwjMDdCbUs" title="FPS Movement" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
+        <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/4IwjMDdCbUs" title="FPS Movement" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
         <div class="project-info">
           <div class="project-tags"><span class="tag">FPS</span><span class="tag">Movement</span></div>
           <div class="project-name">FPS Movement</div>
-          <p class="project-desc">First-person shooter movement system built from scratch — smooth, fast, and satisfying to play.</p>
+          <p class="project-desc">First-person shooter movement system built from scratch. Smooth, fast, and satisfying to play.</p>
           <a href="https://youtu.be/4IwjMDdCbUs" target="_blank" class="project-link">Watch on YouTube →</a>
         </div>
       </div>
-
       <div class="project-card">
-        <div class="yt-wrap">
-          <iframe src="https://www.youtube.com/embed/2TIKcm2Y8sI" title="NPC Chat" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
+        <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/2TIKcm2Y8sI" title="NPC Chat" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
         <div class="project-info">
           <div class="project-tags"><span class="tag">NPC</span><span class="tag">Dialogue</span></div>
           <div class="project-name">NPC Chat System</div>
-          <p class="project-desc">Interactive NPC dialogue system — reactive, modular, and inspired by Forge's NPC framework.</p>
+          <p class="project-desc">Interactive NPC dialogue system: reactive, modular, and inspired by Forge's NPC framework.</p>
           <a href="https://youtu.be/2TIKcm2Y8sI" target="_blank" class="project-link">Watch on YouTube →</a>
         </div>
       </div>
-
       <div class="project-card">
-        <div class="yt-wrap">
-          <iframe src="https://www.youtube.com/embed/nt6BKCPkJlA" title="NPC Reward Collection" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
+        <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/nt6BKCPkJlA" title="NPC Reward Collection" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
         <div class="project-info">
           <div class="project-tags"><span class="tag">NPC</span><span class="tag">Rewards</span><span class="tag">Systems</span></div>
           <div class="project-name">NPC Reward Collection</div>
@@ -506,23 +475,17 @@
           <a href="https://youtu.be/nt6BKCPkJlA" target="_blank" class="project-link">Watch on YouTube →</a>
         </div>
       </div>
-
       <div class="project-card">
-        <div class="yt-wrap">
-          <iframe src="https://www.youtube.com/embed/IMp76QAF5Vk" title="Advanced Movement System" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
+        <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/IMp76QAF5Vk" title="Advanced Movement System" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
         <div class="project-info">
           <div class="project-tags"><span class="tag">Advanced Movement</span><span class="tag">Physics</span></div>
           <div class="project-name">Advanced Movement System</div>
-          <p class="project-desc">Full advanced movement system going well beyond default Roblox — custom physics, feel, and responsiveness.</p>
+          <p class="project-desc">Full advanced movement system going well beyond default Roblox, with custom physics, feel, and responsiveness.</p>
           <a href="https://youtu.be/IMp76QAF5Vk" target="_blank" class="project-link">Watch on YouTube →</a>
         </div>
       </div>
-
       <div class="project-card">
-        <div class="yt-wrap">
-          <iframe src="https://www.youtube.com/embed/Wgy2quzXBKk" title="Monster AI" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
+        <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/Wgy2quzXBKk" title="Monster AI" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
         <div class="project-info">
           <div class="project-tags"><span class="tag">Monster AI</span><span class="tag">Combat</span></div>
           <div class="project-name">Monster AI</div>
@@ -530,7 +493,6 @@
           <a href="https://youtu.be/Wgy2quzXBKk" target="_blank" class="project-link">Watch on YouTube →</a>
         </div>
       </div>
-
     </div>
   </section>
 
@@ -538,50 +500,83 @@
   <section id="maps">
     <div class="section-label fade-up">Environment work</div>
     <h2 class="section-title fade-up">Map Building</h2>
-    <p class="maps-intro fade-up">I can build Roblox maps and environments — nothing crazy, <strong>mediocre results</strong> is an honest way to put it. Good enough to make a game feel alive, set the mood, and have a solid layout. The Brainrot Template maps below are my own work.</p>
+    <p class="maps-intro fade-up">I can build Roblox maps and environments. Nothing crazy,, <strong>mediocre results</strong> is an honest way to put it. Good enough to make a game feel alive, set the mood, and have a solid layout. The Brainrot Template maps below are my own work.</p>
     <div class="maps-grid fade-up">
-
       <div class="map-card">
-        <div class="map-img-wrap">
-          <img src="brainrot1.png" alt="Brainrot Map - Ancient City Street" loading="lazy" />
-        </div>
+        <div class="map-img-wrap"><img src="brainrot1.png" alt="Brainrot Map - Ancient City Street" loading="lazy" /></div>
         <div class="map-info">
           <div class="project-tags"><span class="tag">Brainrot Template</span><span class="tag">Environment</span></div>
           <div class="map-name">Ancient City Street</div>
           <p class="map-desc">Open cobblestone street with ruins, architecture, and a busy NPC-filled world. Part of the Brainrot Template.</p>
         </div>
       </div>
-
       <div class="map-card">
-        <div class="map-img-wrap">
-          <img src="Brainrot2.GIF" alt="Brainrot Map - Beach Arena" loading="lazy" />
-        </div>
+        <div class="map-img-wrap"><img src="Brainrot2.GIF" alt="Brainrot Map - Beach Arena" loading="lazy" /></div>
         <div class="map-info">
           <div class="project-tags"><span class="tag">Brainrot Template</span><span class="tag">Arena</span></div>
           <div class="map-name">Beach Arena</div>
           <p class="map-desc">Sandy beach arena with palm trees, combat tiles, and creature spawns. Vibrant and open layout.</p>
         </div>
       </div>
-
       <div class="map-card">
-        <div class="map-img-wrap">
-          <img src="Brainrot3.GIF" alt="Brainrot Map - Stone Ruins Gate" loading="lazy" />
-        </div>
+        <div class="map-img-wrap"><img src="Brainrot3.GIF" alt="Brainrot Map - Stone Ruins Gate" loading="lazy" /></div>
         <div class="map-info">
           <div class="project-tags"><span class="tag">Brainrot Template</span><span class="tag">Ruins</span></div>
           <div class="map-name">Stone Ruins Gate</div>
           <p class="map-desc">Crumbling stone ruins with a large gate opening into the main city. Atmospheric and detailed environment.</p>
         </div>
       </div>
-
       <div class="map-card">
-        <div class="map-img-wrap">
-          <img src="brainrot4.png" alt="Brainrot Map - Lava Terrain" loading="lazy" />
-        </div>
+        <div class="map-img-wrap"><img src="brainrot4.png" alt="Brainrot Map - Lava Terrain" loading="lazy" /></div>
         <div class="map-info">
           <div class="project-tags"><span class="tag">Brainrot Template</span><span class="tag">Hazard Zone</span></div>
           <div class="map-name">Lava Terrain</div>
-          <p class="map-desc">Broken rocky terrain with glowing lava beneath — a chaotic, hazardous zone with strong atmosphere.</p>
+          <p class="map-desc">Broken rocky terrain with glowing lava beneath, a chaotic, hazardous zone with strong atmosphere.</p>
+        </div>
+      </div>
+
+      <div class="map-card">
+        <div class="map-img-wrap"><img src="MAP1.png" alt="Industrial Map - Warehouse Main Floor" loading="lazy" /></div>
+        <div class="map-info">
+          <div class="project-tags"><span class="tag">Commission</span><span class="tag">Industrial</span><span class="tag">Horror</span></div>
+          <div class="map-name">Warehouse Main Floor</div>
+          <p class="map-desc">Dimly lit industrial warehouse with scattered furniture, metal piping, and an eerie blue atmosphere. Commission work.</p>
+        </div>
+      </div>
+
+      <div class="map-card">
+        <div class="map-img-wrap"><img src="MAP2.png" alt="Industrial Map - Foggy Hall" loading="lazy" /></div>
+        <div class="map-info">
+          <div class="project-tags"><span class="tag">Commission</span><span class="tag">Industrial</span><span class="tag">Horror</span></div>
+          <div class="map-name">Foggy Hall</div>
+          <p class="map-desc">Atmospheric fog rolling across the warehouse floor, tension-building layout with neon strip lights and deep shadows.</p>
+        </div>
+      </div>
+
+      <div class="map-card">
+        <div class="map-img-wrap"><img src="MAP3.png" alt="Industrial Map - Industrial Corridor" loading="lazy" /></div>
+        <div class="map-info">
+          <div class="project-tags"><span class="tag">Commission</span><span class="tag">Industrial</span><span class="tag">Interior</span></div>
+          <div class="map-name">Industrial Corridor</div>
+          <p class="map-desc">Scaffolding-framed passageway with shelving, a computer terminal, and a glowing caution sign. Tight and claustrophobic.</p>
+        </div>
+      </div>
+
+      <div class="map-card">
+        <div class="map-img-wrap"><img src="MAP4.png" alt="Industrial Map - Operations Room" loading="lazy" /></div>
+        <div class="map-info">
+          <div class="project-tags"><span class="tag">Commission</span><span class="tag">Industrial</span><span class="tag">Interior</span></div>
+          <div class="map-name">Operations Room</div>
+          <p class="map-desc">Top-down view of a cluttered ops room: desks, monitors, filing cabinets, and yellow hazard equipment under industrial lighting.</p>
+        </div>
+      </div>
+
+      <div class="map-card">
+        <div class="map-img-wrap"><img src="MAP5.png" alt="Industrial Map - Loading Dock" loading="lazy" /></div>
+        <div class="map-info">
+          <div class="project-tags"><span class="tag">Commission</span><span class="tag">Industrial</span><span class="tag">Cargo</span></div>
+          <div class="map-name">Loading Dock</div>
+          <p class="map-desc">Sealed cargo bay with hazard-striped blast doors, stacked pallets, and a ghostly mist pooling at the entrance.</p>
         </div>
       </div>
 
@@ -608,17 +603,59 @@
     </div>
   </section>
 
+  <!-- SATISFIED CUSTOMERS -->
+  <section id="customers">
+    <div class="section-label fade-up">What clients say</div>
+    <h2 class="section-title fade-up">Satisfied Customers</h2>
+    <p class="customers-intro fade-up">Real feedback from real clients, <strong>no cap</strong>. These are people I've delivered work for, straight from Discord.</p>
+    <div class="customers-grid fade-up">
+
+      <div class="customer-card">
+        <img class="customer-screenshot" src="Customer1.png" alt="Client feedback 1" loading="lazy" />
+        <div class="customer-badge">
+          <span class="badge-dot"></span>
+          <span class="badge-text">Verified client · Discord</span>
+        </div>
+      </div>
+
+      <div class="customer-card">
+        <img class="customer-screenshot" src="Customer2.png" alt="Client feedback 2" loading="lazy" />
+        <div class="customer-badge">
+          <span class="badge-dot"></span>
+          <span class="badge-text">Verified client · Discord</span>
+        </div>
+      </div>
+
+      <div class="customer-card">
+        <img class="customer-screenshot" src="Customer3.png" alt="Client feedback 3" loading="lazy" />
+        <div class="customer-badge">
+          <span class="badge-dot"></span>
+          <span class="badge-text">Verified client · Discord</span>
+        </div>
+      </div>
+
+      <div class="customer-card">
+        <img class="customer-screenshot" src="Customer4.png" alt="Client feedback 4" loading="lazy" />
+        <div class="customer-badge">
+          <span class="badge-dot"></span>
+          <span class="badge-text">Verified client · Discord</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
   <!-- CONTACT -->
   <section id="contact">
     <div class="section-label fade-up">Get in touch</div>
     <h2 class="section-title fade-up">Contact</h2>
     <div class="contact-grid fade-up">
       <div>
-        <p class="contact-intro">Looking for a short-term Roblox developer who delivers fast? Hit me up — I'm open to new projects and can get started quickly. Scripts delivered within a week, max.</p>
+        <p class="contact-intro">Looking for a short-term Roblox developer who delivers fast? Hit me up, I'm open to new projects and can get started quickly. Scripts delivered within a week, max.</p>
         <div class="contact-links">
           <a href="#" class="contact-link"><span>#</span> Discord: Ginoqie</a>
           <a href="https://www.roblox.com/users/4057144006/profile" target="_blank" class="contact-link"><span>🎮</span> Roblox: Ginoqie</a>
-          <a href="https://www.youtube.com/@ginoqie" target="_blank" class="contact-link"><span>▶</span> YouTube — Watch my demos</a>
+          <a href="https://www.youtube.com/@ginoqie" target="_blank" class="contact-link"><span>▶</span> YouTube: Watch my demos</a>
         </div>
       </div>
       <div class="contact-meta">
@@ -633,11 +670,12 @@
 
   <footer>
     <div class="footer-logo">Ginoqie.</div>
-    <div class="footer-copy">© 2026 Ginoqie — Roblox Developer Portfolio</div>
+    <div class="footer-copy">© 2026 Ginoqie · Roblox Developer Portfolio</div>
     <ul class="footer-links">
       <li><a href="#hero">Home</a></li>
       <li><a href="#services">Services</a></li>
       <li><a href="#projects">Projects</a></li>
+      <li><a href="#customers">Reviews</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </footer>
@@ -652,7 +690,6 @@
     let glowX  = mouseX;
     let glowY  = mouseY;
 
-    // Colour palette that cycles like a lava lamp
     const colours = [
       'rgba(255,255,255,0.20)',
       'rgba(200,180,255,0.18)',
@@ -670,25 +707,17 @@
       dot.style.top  = mouseY + 'px';
     });
 
-    // Smooth lag on the glow + colour drift
     function animateCursor() {
-      // Lag the glow behind the cursor — lava-lamp feel
       glowX += (mouseX - glowX) * 0.08;
       glowY += (mouseY - glowY) * 0.08;
-
       glow.style.left = glowX + 'px';
       glow.style.top  = glowY + 'px';
 
-      // Slowly drift colour
       colourT += 0.003;
       if (colourT >= 1) {
         colourT = 0;
         colourIdx = (colourIdx + 1) % colours.length;
       }
-      const nextIdx = (colourIdx + 1) % colours.length;
-      // Lerp between current and next colour string — we just swap at full cycle for simplicity
-      const t = colourT;
-      // Pulsing size
       const pulse = 1 + 0.12 * Math.sin(Date.now() * 0.0015);
       const size  = Math.round(180 * pulse);
       glow.style.width  = size + 'px';
