@@ -174,6 +174,114 @@
   .ph .ph-top{ font-family:var(--mono); font-size:.6rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
   .ph .ph-name{ font-family:var(--disp); font-weight:700; font-size:clamp(1rem,2.4vw,1.5rem); color:var(--ink-2); }
 
+  /* ---------- MAP SHOWCASE SECTION (UPDATED) ---------- */
+  .map-showcase {
+      max-width: 100%;
+  }
+
+  .map-showcase h2 {
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      text-align: center;
+      border-bottom: 2px solid #2d3748;
+      padding-bottom: 15px;
+  }
+
+  .category-section {
+      margin-bottom: 40px;
+  }
+
+  .category-section h3 {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+  }
+
+  .map-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+  }
+
+  .map-card {
+      background-color: var(--card-bg, #1a1c23);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border: 1px solid var(--line);
+  }
+
+  .map-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.4);
+      border-color: var(--accent);
+  }
+
+  .map-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-bottom: 2px solid #2d3748;
+  }
+
+  .map-card-content {
+      padding: 15px;
+  }
+
+  .map-card h4 {
+      margin: 0 0 8px 0;
+      font-size: 1.2rem;
+      font-family: var(--disp);
+  }
+
+  .map-card p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--text-muted, #9ca3af);
+      line-height: 1.4;
+      font-family: var(--mono);
+  }
+
+  .featured-card {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-direction: row;
+      background: linear-gradient(135deg, #1a1c23 0%, #252836 100%);
+      border: 1px solid var(--accent);
+  }
+
+  .featured-card img {
+      width: 50%;
+      height: auto;
+      min-height: 250px;
+      border-bottom: none;
+      border-right: 1px solid #2d3748;
+      object-fit: cover;
+  }
+
+  .featured-card .map-card-content {
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+  }
+
+  @media (max-width: 768px) {
+      .featured-card {
+          flex-direction: column;
+      }
+      .featured-card img {
+          width: 100%;
+          height: 200px;
+          border-right: none;
+          border-bottom: 1px solid #2d3748;
+      }
+  }
+
   /* ---------- WORK ---------- */
   #work-grid{ display:grid; grid-template-columns:repeat(12,1fr); gap:clamp(1rem,1.5vw,1.5rem); }
   .work{ position:relative; cursor:pointer; display:flex; flex-direction:column; gap:.9rem; grid-column:span 6; }
@@ -363,9 +471,9 @@
         <span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>
         <span class="plus tl"></span><span class="plus br"></span>
         <span class="hud-tri"></span>
-        <div class="slot" data-src="MAP1.png" data-label="MAP1 · WAREHOUSE">
-          <img alt="Environment render — Roblox industrial map" loading="eager"/>
-          <div class="ph"><span class="ph-top">Environment · Render</span><span class="ph-name">GQ.</span></div>
+        <div class="slot" data-src="Spider-Noir Icon.jfif" data-label="SPIDER-NOIR · FEATURED">
+          <img alt="Spider-Noir Build" loading="eager"/>
+          <div class="ph"><span class="ph-top">Featured Build</span><span class="ph-name">Spider-Noir</span></div>
         </div>
         <div class="hud-foot">
           <span class="segs"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></span>
@@ -411,7 +519,7 @@
   <div id="work-grid" class="reveal"></div>
 </section>
 
-<!-- ENVIRONMENTS / MAPS -->
+<!-- ENVIRONMENTS / MAPS (UPDATED WITH ALL BUILDS & SPIDER-NOIR FIRST) -->
 <section id="environments" class="section alt">
   <div class="sec-head reveal">
     <div>
@@ -420,8 +528,85 @@
     </div>
     <p class="sec-note">Interiors, horror sets and template worlds. Layout, lighting and set dressing.</p>
   </div>
-  <div id="env-rail" class="reveal"></div>
-  <div class="rail-hint reveal"><span class="b"></span><span class="mono">Drag / scroll horizontally</span></div>
+  
+  <div class="map-showcase reveal">
+    <!-- Featured / First Page Item -->
+    <div class="category-section">
+      <h3>⭐ Featured Build</h3>
+      <div class="map-grid">
+        <div class="map-card featured-card">
+          <img src="Spider-Noir Icon.jfif" alt="Spider-Noir Icon">
+          <div class="map-card-content">
+            <h4>Spider-Noir Build</h4>
+            <p>Atmospheric cinematic interior shot featuring dark moody lighting, tactical layout design, and custom post-processing overlay aesthetics.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lobby Builds Section -->
+    <div class="category-section">
+      <h3>🏙️ Lobby Builds</h3>
+      <div class="map-grid">
+        <div class="map-card">
+          <img src="Lobby Build.png" alt="Lobby Build">
+          <div class="map-card-content">
+            <h4>Lobby Build</h4>
+            <p>Wide overview shot showcasing the stylized city skyline and modular building designs.</p>
+          </div>
+        </div>
+        <div class="map-card">
+          <img src="Lobby Build2.png" alt="Lobby Build2">
+          <div class="map-card-content">
+            <h4>Lobby Build2</h4>
+            <p>Street-level perspective featuring storefronts, street furniture, a patrol vehicle, and character placement.</p>
+          </div>
+        </div>
+        <div class="map-card">
+          <img src="Lobby Build3.png" alt="Lobby Build3">
+          <div class="map-card-content">
+            <h4>Lobby Build3</h4>
+            <p>Additional street angle highlighting the urban layout and environment design.</p>
+          </div>
+        </div>
+        <div class="map-card">
+          <img src="Lobbyy Build4.png" alt="Lobbyy Build4">
+          <div class="map-card-content">
+            <h4>Lobbyy Build4</h4>
+            <p>Extended showcase angle of the city setting.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Horror Builds Section -->
+    <div class="category-section">
+      <h3>🩸 Horror Builds</h3>
+      <div class="map-grid">
+        <div class="map-card">
+          <img src="Horror Build.png" alt="Horror Build">
+          <div class="map-card-content">
+            <h4>Horror Build</h4>
+            <p>Atmospheric industrial corridor featuring heavy metallic pipes and moody red accent lighting.</p>
+          </div>
+        </div>
+        <div class="map-card">
+          <img src="Horror Build2.png" alt="Horror Build2">
+          <div class="map-card-content">
+            <h4>Horror Build2</h4>
+            <p>Detailed wall section equipped with ventilation fans, intricate cabling, and industrial plating.</p>
+          </div>
+        </div>
+        <div class="map-card">
+          <img src="Horror Build3.png" alt="Horror Build3">
+          <div class="map-card-content">
+            <h4>Horror Build3</h4>
+            <p>Angled view emphasizing the machinery, fans, and mechanical infrastructure of the horror environment.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- CRAFT / SKILLS -->
@@ -525,18 +710,6 @@ const WORK = [
     desc:'An NPC-driven reward-collection loop — readable logic, smooth player interaction, easy to extend into quests or shops.' }
 ];
 
-const ENVS = [
-  { src:'MAP1.png', num:'01', name:'Warehouse Main Floor', disc:'Industrial / Horror · Lighting' },
-  { src:'MAP2.png', num:'02', name:'Foggy Hall',           disc:'Horror · Fog / Mood' },
-  { src:'MAP3.png', num:'03', name:'Industrial Corridor',  disc:'Interior · Level Design' },
-  { src:'MAP4.png', num:'04', name:'Operations Room',      disc:'Interior · Set Dressing' },
-  { src:'MAP5.png', num:'05', name:'Loading Dock',         disc:'Cargo · Blockout / Detail' },
-  { src:'brainrot1.png', num:'06', name:'Ancient City Street', disc:'Brainrot Template · World' },
-  { src:'Brainrot2.GIF', num:'07', name:'Beach Arena',        disc:'Brainrot Template · Arena' },
-  { src:'Brainrot3.GIF', num:'08', name:'Stone Ruins Gate',   disc:'Brainrot Template · Ruins' },
-  { src:'brainrot4.png', num:'09', name:'Lava Terrain',       disc:'Brainrot Template · Hazard' },
-];
-
 const CRAFT = [
   ['01','Movement','Sprinting, sliding, vaulting, ledge-grabs and custom controllers.'],
   ['02','FPS Systems','Gunplay, recoil, hit detection and viewmodels that feel sharp.'],
@@ -596,52 +769,6 @@ document.querySelectorAll('.work-media').forEach(m=>{
   m.addEventListener('mouseleave',()=>{ img.style.transform=''; });
 });
 
-/* ============ ENVIRONMENTS FIXED SLIDER ============ */
-const rail=document.getElementById('env-rail');
-ENVS.forEach(e=>{
-  const el=document.createElement('div'); el.className='env';
-  el.innerHTML=`
-    ${cornerHTML}
-    <div class="slot" data-src="${e.src}">
-      <img alt="${e.name} — environment render" loading="lazy"/>
-      <div class="ph"><span class="ph-top">Env ${e.num} · replace ${e.src}</span><span class="ph-name">${e.name}</span></div>
-    </div>
-    <div class="env-info">
-      <div><div class="env-name">${e.name}</div><div class="env-disc">${e.disc}</div></div>
-      <div class="env-num">${e.num}</div>
-    </div>`;
-  rail.appendChild(el);
-  loadSlot(el.querySelector('.slot'));
-});
-
-// Fixed window-bound drag scroll handler
-(function(){
-  let isDown = false;
-  let startX;
-  let scrollLeft;
-
-  rail.addEventListener('mousedown', (e) => {
-    isDown = true;
-    rail.classList.add('drag');
-    startX = e.clientX;
-    scrollLeft = rail.scrollLeft;
-    e.preventDefault();
-  });
-
-  window.addEventListener('mouseup', () => {
-    if (!isDown) return;
-    isDown = false;
-    rail.classList.remove('drag');
-  });
-
-  window.addEventListener('mousemove', (e) => {
-    if (!isDown) return;
-    const x = e.clientX;
-    const walk = (x - startX) * 1.5;
-    rail.scrollLeft = scrollLeft - walk;
-  });
-})();
-
 /* ============ CRAFT ============ */
 const cl=document.getElementById('craft-list');
 CRAFT.forEach(([i,name,desc])=>{
@@ -673,7 +800,7 @@ function openCase(idx){
         <div class="case-block"><h4>Tools</h4><div class="case-tags">${p.tools.map(t=>`<span>${t}</span>`).join('')}</div></div>
       </div>
     </div>`;
-  caseEl.classList.add('open'); caseEl.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden';
+  caseEl.classList.add('open'); caseEl.setAttribute('aria-hidden','true'); document.body.style.overflow='hidden';
 }
 function closeCase(){ caseEl.classList.remove('open'); caseEl.setAttribute('aria-hidden','true'); document.body.style.overflow=''; setTimeout(()=>caseInner.innerHTML='',400); }
 document.getElementById('case-close').addEventListener('click',closeCase);
