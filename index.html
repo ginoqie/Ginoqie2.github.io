@@ -1,722 +1,696 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ginoqie | Roblox Game Developer</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ginoqie — Roblox Game Developer</title>
+<meta name="description" content="Ginoqie — Roblox game developer building FPS systems, movement, monster AI, UI and immersive environments in Roblox Studio." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
 
-    :root {
-      --bg:    #060608;
-      --bg2:   #0c0c0f;
-      --bg3:   #121217;
-      --accent:  #c8c8d8;
-      --accent2: #ffffff;
-      --text:  #efefef;
-      --muted: #4a4a5a;
-      --border: rgba(255,255,255,0.07);
-      --card:  rgba(12,12,15,0.85);
-      --mono: 'DM Mono', monospace;
-      --sans: 'Syne', sans-serif;
-    }
+  :root{
+    --bg:#0A0A0C;
+    --bg-2:#101013;
+    --bg-3:#16161A;
+    --ink:#F4F4F5;
+    --ink-2:#C7C7CE;
+    --muted:#83838E;
+    --muted-2:#54545C;
+    --line:rgba(255,255,255,.09);
+    --line-2:rgba(255,255,255,.16);
+    --accent:#FF3D14;
+    --accent-2:#FF6A3D;
+    --accent-deep:#D42F0A;
+    --glow:rgba(255,61,20,.45);
 
-    html { scroll-behavior: smooth; }
-    body { font-family: var(--sans); background: var(--bg); color: var(--text); overflow-x: hidden; cursor: none; }
+    --disp:'Space Grotesk',system-ui,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
 
-    /* CURSOR LAVA LAMP LIGHT */
-    #cursor-glow {
-      position: fixed;
-      pointer-events: none;
-      z-index: 9999;
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      background: radial-gradient(circle, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.07) 35%, transparent 70%);
-      filter: blur(18px);
-      transition: width 0.4s ease, height 0.4s ease, background 0.6s ease;
-      mix-blend-mode: screen;
-    }
-    #cursor-dot {
-      position: fixed;
-      pointer-events: none;
-      z-index: 10000;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.9);
-      transform: translate(-50%, -50%);
-      box-shadow: 0 0 10px 3px rgba(255,255,255,0.6), 0 0 20px 6px rgba(255,255,255,0.2);
-      transition: width 0.2s, height 0.2s;
-    }
+    --mx:clamp(1.25rem,5vw,5rem);
+    --sy:clamp(5rem,10vw,8.5rem);
+  }
 
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none; z-index: 998;
-    }
+  html{ scroll-behavior:smooth; }
+  body{
+    font-family:var(--disp);
+    background:var(--bg);
+    color:var(--ink);
+    overflow-x:hidden;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* faint grid + vignette */
+  body::before{
+    content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+    background-size:64px 64px;
+    mask-image:radial-gradient(ellipse 90% 70% at 50% 30%,#000 25%,transparent 85%);
+  }
+  body::after{
+    content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+    background:radial-gradient(ellipse 60% 50% at 70% 15%,rgba(255,61,20,.06),transparent 70%);
+  }
 
-    /* NAV */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 1.2rem 4rem;
-      background: rgba(6,6,8,0.88); backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-logo { font-family: var(--mono); font-size: 1rem; color: var(--text); letter-spacing: 0.04em; text-decoration: none; }
-    .nav-logo span { color: var(--muted); }
-    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-    .nav-links a { font-family: var(--mono); font-size: 0.74rem; color: var(--muted); text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; cursor: none; }
-    .nav-links a:hover { color: var(--text); }
+  a{ color:inherit; text-decoration:none; }
+  .mono{ font-family:var(--mono); font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+  .accent{ color:var(--accent); }
 
-    /* HERO */
-    #hero {
-      min-height: 100vh;
-      display: flex; flex-direction: column; justify-content: center;
-      padding: 0 4rem; position: relative; overflow: hidden;
-    }
-    #hero::after {
-      content: '';
-      position: absolute; inset: 0;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px);
-      background-size: 60px 60px;
-      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 80%);
-      pointer-events: none;
-    }
-    .hero-orb { position: absolute; border-radius: 50%; filter: blur(100px); pointer-events: none; }
-    .orb1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%); top: -80px; left: -80px; animation: drift1 18s ease-in-out infinite alternate; }
-    .orb2 { width: 350px; height: 350px; background: radial-gradient(circle, rgba(200,200,220,0.04) 0%, transparent 70%); bottom: 60px; right: 5%; animation: drift2 22s ease-in-out infinite alternate; }
-    @keyframes drift1 { to { transform: translate(50px,70px); } }
-    @keyframes drift2 { to { transform: translate(-40px,-50px); } }
+  /* HUD corner brackets — drop 4 <span class="c tl/tr/bl/br"> inside a position:relative box */
+  .c{ position:absolute; width:13px; height:13px; border:1.5px solid var(--accent); z-index:4; pointer-events:none; }
+  .c.tl{ top:-1px; left:-1px; border-right:0; border-bottom:0; }
+  .c.tr{ top:-1px; right:-1px; border-left:0; border-bottom:0; }
+  .c.bl{ bottom:-1px; left:-1px; border-right:0; border-top:0; }
+  .c.br{ bottom:-1px; right:-1px; border-left:0; border-top:0; }
 
-    .hero-tag { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.8rem; display: flex; align-items: center; gap: 0.8rem; }
-    .hero-tag::before { content: ''; display: block; width: 28px; height: 1px; background: var(--muted); }
-    .avail-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #22c55e; animation: pdot 2s ease-in-out infinite; margin-right: 0.3rem; }
-    @keyframes pdot { 0%,100%{opacity:1} 50%{opacity:0.35} }
+  /* plus tick marks */
+  .plus{ position:absolute; width:10px; height:10px; z-index:4; pointer-events:none; opacity:.5; }
+  .plus::before,.plus::after{ content:''; position:absolute; background:var(--muted); }
+  .plus::before{ left:50%; top:0; width:1px; height:100%; transform:translateX(-.5px); }
+  .plus::after{ top:50%; left:0; height:1px; width:100%; transform:translateY(-.5px); }
+  .plus.tl{ top:-5px; left:-5px; } .plus.tr{ top:-5px; right:-5px; }
+  .plus.bl{ bottom:-5px; left:-5px; } .plus.br{ bottom:-5px; right:-5px; }
 
-    .hero-name {
-      font-size: clamp(4rem,10vw,9rem);
-      font-weight: 800;
-      line-height: 0.92;
-      letter-spacing: -0.03em;
-      margin-bottom: 1.8rem;
-      position: relative;
-      z-index: 1;
-      animation: float-name 4s ease-in-out infinite;
-      display: inline-block;
-      width: fit-content;
-    }
-    .hero-name .glow-text {
-      color: #ffffff;
-      text-shadow:
-        0 0 20px rgba(255,255,255,0.9),
-        0 0 40px rgba(255,255,255,0.6),
-        0 0 80px rgba(255,255,255,0.3),
-        0 0 120px rgba(255,255,255,0.15);
-      animation: glow-pulse 3s ease-in-out infinite alternate;
-    }
-    .hero-name .dim { color: rgba(255,255,255,0.18); }
-    @keyframes float-name {
-      0%, 100% { transform: translateY(0px); }
-      50%       { transform: translateY(-14px); }
-    }
-    @keyframes glow-pulse {
-      from {
-        text-shadow:
-          0 0 20px rgba(255,255,255,0.9),
-          0 0 40px rgba(255,255,255,0.5),
-          0 0 80px rgba(255,255,255,0.25),
-          0 0 120px rgba(255,255,255,0.1);
-      }
-      to {
-        text-shadow:
-          0 0 30px rgba(255,255,255,1),
-          0 0 60px rgba(255,255,255,0.75),
-          0 0 110px rgba(255,255,255,0.4),
-          0 0 160px rgba(255,255,255,0.2);
-      }
-    }
+  /* ---------- NAV ---------- */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:60;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:1.15rem var(--mx);
+    border-bottom:1px solid transparent;
+    transition:padding .35s ease, background .35s ease, border-color .35s ease;
+  }
+  nav.compact{ padding:.75rem var(--mx); background:rgba(10,10,12,.82); backdrop-filter:blur(12px); border-bottom:1px solid var(--line); }
+  .brand{ font-family:var(--disp); font-weight:700; font-size:1.25rem; letter-spacing:-.01em; }
+  .brand i{ color:var(--accent); font-style:normal; }
+  .nav-mid{ display:flex; gap:2.2rem; list-style:none; }
+  .nav-mid a{ font-family:var(--mono); font-size:.7rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); position:relative; padding:.2rem 0; transition:color .25s; }
+  .nav-mid a::after{ content:''; position:absolute; left:0; bottom:-3px; height:1px; width:0; background:var(--accent); transition:width .3s ease; }
+  .nav-mid a:hover{ color:var(--ink); } .nav-mid a:hover::after,.nav-mid a.active::after{ width:100%; } .nav-mid a.active{ color:var(--ink); }
+  .hire{ position:relative; font-family:var(--mono); font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); border:1px solid var(--accent); padding:.6rem 1.05rem; transition:background .25s,color .25s,box-shadow .25s; }
+  .hire:hover{ background:var(--accent); color:#0A0A0C; box-shadow:0 0 22px var(--glow); }
 
-    .hero-sub { font-family: var(--mono); font-size: 0.95rem; color: var(--muted); margin-bottom: 3rem; max-width: 520px; line-height: 1.8; position: relative; z-index: 1; }
+  /* ---------- HERO ---------- */
+  #hero{ position:relative; z-index:2; padding:7.5rem var(--mx) var(--sy); }
+  .hero-split{ display:grid; grid-template-columns:1.05fr .95fr; gap:clamp(2rem,5vw,4.5rem); align-items:center; min-height:70vh; }
 
-    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; position: relative; z-index: 1; }
-    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 2rem; border-radius: 4px; font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.08em; text-decoration: none; cursor: none; border: none; transition: transform 0.2s, opacity 0.2s; }
-    .btn:hover { transform: translateY(-2px); }
-    .btn-primary { background: var(--text); color: var(--bg); }
-    .btn-primary:hover { opacity: 0.88; }
-    .btn-secondary { background: transparent; color: var(--muted); border: 1px solid var(--border); }
-    .btn-secondary:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+  .pill{ display:inline-flex; align-items:center; gap:.7rem; border:1px solid var(--line-2); border-radius:999px; padding:.5rem 1rem; margin-bottom:1.8rem; font-family:var(--mono); font-size:.66rem; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-2); }
+  .pill .dot{ width:7px; height:7px; border-radius:50%; background:var(--accent); box-shadow:0 0 10px var(--glow); animation:pulse 2s ease-in-out infinite; }
+  @keyframes pulse{ 0%,100%{ opacity:1; } 50%{ opacity:.4; } }
 
-    .hero-scroll { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 0.6rem; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; }
-    .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--muted), transparent); animation: sp 2.5s ease-in-out infinite; }
-    @keyframes sp { 0%,100%{opacity:0.2} 50%{opacity:0.8} }
+  .hero-name{
+    font-family:var(--disp); font-weight:700;
+    font-size:clamp(3.6rem,10vw,8.5rem); line-height:.92; letter-spacing:-.03em;
+    color:#fff; text-shadow:0 0 22px rgba(255,255,255,.35), 0 0 46px rgba(255,255,255,.14);
+  }
+  .hero-name i{ font-style:normal; color:var(--accent); text-shadow:0 0 22px var(--glow); }
 
-    /* SECTIONS */
-    section { padding: 6rem 4rem; }
-    .section-label { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 0.8rem; }
-    .section-title { font-size: clamp(2rem,4vw,3rem); font-weight: 800; margin-bottom: 3rem; letter-spacing: -0.025em; }
+  .slashes{ display:flex; align-items:center; gap:.5rem; margin:1.3rem 0 1.6rem; }
+  .slashes .ln{ height:1px; width:38px; background:var(--line-2); }
+  .slashes .sl{ font-family:var(--mono); color:var(--accent); font-size:.8rem; letter-spacing:.1em; }
 
-    /* ABOUT */
-    #about { background: var(--bg2); }
-    .about-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 5rem; align-items: start; max-width: 1100px; }
-    .about-text p { font-family: var(--mono); font-size: 0.88rem; color: var(--muted); line-height: 1.95; margin-bottom: 1.2rem; font-weight: 300; }
-    .about-text p strong { color: var(--text); font-weight: 500; }
+  .hero-desc{ font-family:var(--mono); font-size:.9rem; line-height:1.85; color:var(--muted); max-width:44ch; }
+  .hero-desc b{ color:var(--ink-2); font-weight:500; }
 
-    .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 1.5rem; }
-    .stat-card { background: var(--bg3); padding: 1.5rem; text-align: center; }
-    .stat-num { font-size: 2.2rem; font-weight: 800; line-height: 1; }
-    .stat-label { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; margin-top: 0.4rem; }
+  .hero-ctas{ display:flex; gap:1rem; margin-top:2.2rem; flex-wrap:wrap; }
+  .btn{ position:relative; display:inline-flex; align-items:center; gap:.7rem; font-family:var(--mono); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; padding:1rem 1.6rem; transition:transform .2s, box-shadow .25s, background .25s, color .25s, border-color .25s; }
+  .btn .arw{ transition:transform .2s; }
+  .btn:hover .arw{ transform:translate(2px,-2px); }
+  .btn-primary{ background:var(--accent); color:#0A0A0C; font-weight:500; box-shadow:0 0 26px var(--glow); }
+  .btn-primary:hover{ background:var(--accent-2); box-shadow:0 0 38px var(--glow); }
+  .btn-ghost{ border:1px solid var(--line-2); color:var(--ink); background:transparent; }
+  .btn-ghost:hover{ border-color:var(--accent); color:var(--accent); }
+  .btn-ghost .c{ width:9px; height:9px; }
 
-    .about-roles { display: flex; flex-direction: column; gap: 0.6rem; }
-    .role-item { border: 1px solid var(--border); border-radius: 6px; padding: 1.1rem 1.4rem; background: var(--card); transition: border-color 0.2s, transform 0.2s; }
-    .role-item:hover { border-color: rgba(255,255,255,0.2); transform: translateX(4px); }
-    .role-title { font-weight: 700; font-size: 0.9rem; margin-bottom: 0.3rem; }
-    .role-desc { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); line-height: 1.65; }
+  /* hero visual — HUD frame */
+  .hero-visual{ perspective:1600px; }
+  .hud-frame{
+    position:relative; aspect-ratio:16/11;
+    transform:rotateY(-8deg) rotateX(3deg); transform-style:preserve-3d;
+    transition:transform .6s cubic-bezier(.16,1,.3,1);
+  }
+  .hero-visual:hover .hud-frame{ transform:rotateY(-3deg) rotateX(1deg); }
+  .hud-frame .slot{ position:absolute; inset:0; border:1px solid var(--line-2); overflow:hidden; }
+  .hud-frame .slot::after{ content:''; position:absolute; inset:0; box-shadow:inset 0 0 60px rgba(0,0,0,.6); pointer-events:none; }
+  .hud-tri{ position:absolute; top:6px; right:6px; width:0; height:0; border-top:16px solid var(--accent); border-left:16px solid transparent; z-index:5; box-shadow:0 0 12px var(--glow); }
+  .hud-glow-edge{ position:absolute; top:-1px; left:-1px; width:34%; height:2px; background:linear-gradient(90deg,var(--accent),transparent); z-index:5; box-shadow:0 0 10px var(--glow); }
+  .hud-foot{ position:absolute; left:0; right:0; bottom:-1px; display:flex; align-items:center; justify-content:space-between; padding:.7rem .8rem; z-index:5; background:linear-gradient(to top,rgba(10,10,12,.9),transparent); }
+  .segs{ display:flex; gap:5px; }
+  .segs i{ width:26px; height:4px; background:var(--muted-2); display:block; }
+  .segs i.on{ background:var(--accent); box-shadow:0 0 8px var(--glow); }
+  .hud-idx{ font-family:var(--mono); font-size:.72rem; letter-spacing:.08em; color:var(--ink-2); }
+  .hud-idx b{ color:var(--accent); }
 
-    /* SERVICES */
-    #services { background: var(--bg); }
-    .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; max-width: 1100px; }
-    .service-card { background: var(--bg2); padding: 1.8rem; transition: background 0.25s; position: relative; }
-    .service-card:hover { background: var(--bg3); }
-    .service-icon { font-size: 1.4rem; margin-bottom: 0.9rem; }
-    .service-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.4rem; }
-    .service-desc { font-family: var(--mono); font-size: 0.76rem; color: var(--muted); line-height: 1.7; }
+  /* ---------- STATS BAR ---------- */
+  .stats-shell{ position:relative; margin-top:clamp(3rem,6vw,5rem); border:1px solid var(--line); background:linear-gradient(180deg,rgba(255,255,255,.015),transparent); }
+  .stats-shell .plus{ opacity:.6; }
+  .stats{ display:grid; grid-template-columns:repeat(4,1fr); }
+  .stat{ padding:clamp(1.6rem,3vw,2.6rem) clamp(1.2rem,2.5vw,2rem); border-left:1px solid var(--line); text-align:left; }
+  .stat:first-child{ border-left:0; }
+  .stat .ic{ display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; border:1px solid var(--line-2); background:var(--bg-2); margin-bottom:1.1rem; color:var(--accent); }
+  .stat .ic svg{ width:20px; height:20px; }
+  .stat .ic .luatxt{ font-family:var(--mono); font-weight:700; font-size:.68rem; color:var(--accent); }
+  .stat .n{ font-family:var(--disp); font-weight:700; font-size:clamp(1.9rem,4vw,2.9rem); line-height:1; color:var(--accent); letter-spacing:-.02em; }
+  .stat .l{ font-family:var(--mono); font-size:.64rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-top:.5rem; }
 
-    .offer-terms { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; max-width: 1100px; margin-top: 2rem; }
-    .term-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 1.2rem 1.4rem; }
-    .term-label { font-family: var(--mono); font-size: 0.6rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 0.35rem; }
-    .term-value { font-family: var(--mono); font-size: 0.9rem; color: var(--text); font-weight: 500; }
+  /* ---------- SECTION SHELL ---------- */
+  .section{ position:relative; z-index:2; padding:var(--sy) var(--mx); }
+  .section.alt{ background:var(--bg-2); }
+  .sec-head{ display:flex; align-items:baseline; justify-content:space-between; gap:1rem; margin-bottom:clamp(2.5rem,5vw,4rem); flex-wrap:wrap; border-bottom:1px solid var(--line); padding-bottom:1.2rem; }
+  .sec-index{ font-family:var(--mono); font-size:.7rem; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); display:flex; align-items:center; gap:.55rem; }
+  .sec-index .b{ width:8px; height:8px; background:var(--accent); box-shadow:0 0 8px var(--glow); }
+  .sec-title{ font-family:var(--disp); font-weight:700; font-size:clamp(2.1rem,5.5vw,4.2rem); letter-spacing:-.03em; line-height:1; }
+  .sec-note{ font-family:var(--mono); font-size:.66rem; letter-spacing:.04em; color:var(--muted); max-width:28ch; text-align:right; }
 
-    /* PROJECTS */
-    #projects { background: var(--bg2); }
-    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-    .project-card { background: var(--bg2); transition: background 0.25s; }
-    .project-card:hover { background: var(--bg3); }
-    .project-thumb-placeholder { width: 100%; aspect-ratio: 16/9; background: var(--bg3); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
-    .project-thumb-placeholder .grid-overlay { position: absolute; inset: 0; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 30px 30px; }
-    .project-thumb-placeholder .play-icon { position: relative; z-index: 1; font-size: 2rem; color: var(--muted); opacity: 0.35; }
-    .project-card video { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
-    .yt-wrap { position: relative; width: 100%; aspect-ratio: 16/9; background: var(--bg3); overflow: hidden; }
-    .yt-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; display: block; }
-    .project-info { padding: 1.4rem; border-top: 1px solid var(--border); }
-    .project-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.7rem; }
-    .tag { font-family: var(--mono); font-size: 0.62rem; background: rgba(255,255,255,0.04); color: var(--muted); border: 1px solid var(--border); padding: 0.18rem 0.55rem; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.07em; }
-    .project-name { font-size: 1rem; font-weight: 700; margin-bottom: 0.35rem; }
-    .project-desc { font-family: var(--mono); font-size: 0.76rem; color: var(--muted); line-height: 1.65; margin-bottom: 1rem; }
-    .project-link { font-family: var(--mono); font-size: 0.76rem; color: var(--text); text-decoration: none; opacity: 0.55; display: inline-flex; align-items: center; gap: 0.3rem; transition: opacity 0.2s, gap 0.2s; cursor: none; }
-    .project-link:hover { opacity: 1; gap: 0.5rem; }
+  /* ---------- image slot ---------- */
+  .slot{ position:relative; overflow:hidden; background:var(--bg-3); }
+  .slot img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .slot .ph{ position:absolute; inset:0; display:none; flex-direction:column; justify-content:space-between; padding:1rem;
+    background:repeating-linear-gradient(45deg,transparent 0 22px,rgba(255,255,255,.02) 22px 23px),var(--bg-3); }
+  .slot.failed img{ display:none; } .slot.failed .ph{ display:flex; }
+  .ph .ph-top{ font-family:var(--mono); font-size:.6rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+  .ph .ph-name{ font-family:var(--disp); font-weight:700; font-size:clamp(1rem,2.4vw,1.5rem); color:var(--ink-2); }
 
-    /* MAP BUILDING */
-    #maps { background: var(--bg); }
-    .maps-intro { font-family: var(--mono); font-size: 0.86rem; color: var(--muted); line-height: 1.85; margin-bottom: 2.5rem; max-width: 680px; }
-    .maps-intro strong { color: var(--text); }
-    .maps-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; max-width: 1100px; }
-    .map-card { background: var(--bg2); transition: background 0.25s; }
-    .map-card:hover { background: var(--bg3); }
-    .map-img-wrap { width: 100%; aspect-ratio: 16/9; overflow: hidden; position: relative; }
-    .map-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
-    .map-card:hover .map-img-wrap img { transform: scale(1.04); }
-    .map-info { padding: 1.2rem 1.4rem; border-top: 1px solid var(--border); }
-    .map-name { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.3rem; }
-    .map-desc { font-family: var(--mono); font-size: 0.74rem; color: var(--muted); line-height: 1.65; }
+  /* ---------- WORK ---------- */
+  #work-grid{ display:grid; grid-template-columns:repeat(12,1fr); gap:clamp(1rem,1.5vw,1.5rem); }
+  .work{ position:relative; cursor:pointer; display:flex; flex-direction:column; gap:.9rem; grid-column:span 6; }
+  .work[data-size="feature"]{ grid-column:span 8; } .work[data-size="wide"]{ grid-column:span 7; }
+  .work[data-size="tall"]{ grid-column:span 5; } .work[data-size="small"]{ grid-column:span 4; }
+  .work[data-size="text"]{ grid-column:span 5; justify-content:center; }
+  .work-media{ position:relative; aspect-ratio:16/9; border:1px solid var(--line); }
+  .work[data-size="tall"] .work-media{ aspect-ratio:4/5; }
+  .work[data-size="text"] .work-media{ aspect-ratio:16/10; }
+  .work-media .slot{ position:absolute; inset:0; }
+  .work-media .slot img{ transition:transform .6s cubic-bezier(.16,1,.3,1), filter .4s; filter:grayscale(.15) brightness(.92); }
+  .work:hover .work-media .slot img{ filter:none; }
+  .work-media::after{ content:''; position:absolute; inset:0; border:1px solid transparent; transition:border-color .3s, box-shadow .3s; pointer-events:none; z-index:2; }
+  .work:hover .work-media::after{ border-color:var(--accent); box-shadow:0 0 24px rgba(255,61,20,.25) inset; }
+  .work:hover .c{ opacity:1; } .work .c{ opacity:0; transition:opacity .3s; width:11px; height:11px; }
+  .play{ position:absolute; z-index:3; left:.8rem; bottom:.8rem; font-family:var(--mono); font-size:.6rem; letter-spacing:.14em; text-transform:uppercase; color:var(--ink); background:rgba(10,10,12,.7); padding:.4rem .6rem; display:flex; align-items:center; gap:.45rem; border:1px solid var(--line); }
+  .play .tri{ width:0; height:0; border-left:6px solid var(--accent); border-top:4px solid transparent; border-bottom:4px solid transparent; }
+  .work-cap{ display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; }
+  .work-cap .idx{ font-family:var(--mono); font-size:.7rem; color:var(--accent); }
+  .work-name{ font-family:var(--disp); font-weight:600; font-size:clamp(1.05rem,2vw,1.45rem); line-height:1.05; transition:color .25s; }
+  .work:hover .work-name{ color:var(--accent); }
+  .work-cat{ font-family:var(--mono); font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-top:.35rem; }
+  .work-reveal{ font-family:var(--mono); font-size:.76rem; color:var(--muted); line-height:1.7; max-height:0; opacity:0; overflow:hidden; transition:max-height .4s ease, opacity .4s ease, margin .4s ease; }
+  .work[data-size="text"] .work-reveal,.work:hover .work-reveal{ max-height:7rem; opacity:1; margin-top:.3rem; }
 
-    /* SKILLS */
-    #skills { background: var(--bg2); }
-    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.4rem; max-width: 1100px; }
-    .skill-item { display: flex; flex-direction: column; gap: 0.5rem; }
-    .skill-header { display: flex; justify-content: space-between; align-items: center; }
-    .skill-name { font-family: var(--mono); font-size: 0.82rem; }
-    .skill-level { font-family: var(--mono); font-size: 0.62rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
-    .skill-bar { height: 2px; background: var(--bg3); border-radius: 2px; overflow: hidden; }
-    .skill-fill { height: 100%; background: var(--text); transform-origin: left; animation: fillbar 1.4s cubic-bezier(0.16,1,0.3,1) both; }
-    @keyframes fillbar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  #cursor-tag{ position:fixed; z-index:80; top:0; left:0; pointer-events:none; font-family:var(--mono); font-size:.58rem; letter-spacing:.16em; text-transform:uppercase; background:var(--accent); color:#0A0A0C; padding:.4rem .6rem; box-shadow:0 0 18px var(--glow); transform:translate(-50%,-160%) scale(.6); opacity:0; transition:opacity .2s, transform .2s; }
+  #cursor-tag.on{ opacity:1; transform:translate(-50%,-160%) scale(1); }
 
-    /* ── SATISFIED CUSTOMERS ── */
-    #customers { background: var(--bg); }
-    .customers-intro { font-family: var(--mono); font-size: 0.86rem; color: var(--muted); line-height: 1.85; margin-bottom: 2.5rem; max-width: 680px; }
-    .customers-intro strong { color: var(--text); }
+  /* ---------- ENVIRONMENTS ---------- */
+  #env-rail{ display:flex; gap:clamp(1rem,1.5vw,1.5rem); overflow-x:auto; padding-bottom:1.4rem; scroll-snap-type:x mandatory; cursor:grab; }
+  #env-rail.drag{ cursor:grabbing; }
+  #env-rail::-webkit-scrollbar{ height:2px; } #env-rail::-webkit-scrollbar-thumb{ background:var(--line-2); }
+  .env{ position:relative; flex:0 0 auto; width:min(78vw,520px); scroll-snap-align:start; border:1px solid var(--line); }
+  .env .slot{ aspect-ratio:16/10; }
+  .env .slot img{ transition:transform .7s cubic-bezier(.16,1,.3,1), filter .4s; filter:grayscale(.2) brightness(.85); }
+  .env:hover .slot img{ transform:scale(1.05); filter:none; }
+  .env:hover .c{ opacity:1; } .env .c{ opacity:0; transition:opacity .3s; }
+  .env-info{ position:absolute; left:0; right:0; bottom:0; z-index:3; padding:1rem; display:flex; align-items:flex-end; justify-content:space-between; gap:1rem; background:linear-gradient(to top,rgba(10,10,12,.9),transparent); opacity:0; transform:translateY(8px); transition:opacity .35s, transform .35s; }
+  .env:hover .env-info{ opacity:1; transform:none; }
+  .env-num{ font-family:var(--mono); font-size:.64rem; letter-spacing:.14em; color:var(--accent); }
+  .env-name{ font-family:var(--disp); font-weight:700; font-size:1.15rem; line-height:1.05; }
+  .env-disc{ font-family:var(--mono); font-size:.58rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-top:.2rem; }
+  .rail-hint{ margin-top:1rem; display:flex; align-items:center; gap:.6rem; }
+  .rail-hint .b{ width:6px; height:6px; background:var(--accent); }
 
-    .customers-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1rem;
-      max-width: 1100px;
-    }
+  /* ---------- CRAFT ---------- */
+  .craft-list{ border-top:1px solid var(--line); }
+  .craft{ display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:1.5rem; padding:clamp(1rem,2.2vw,1.8rem) 0; border-bottom:1px solid var(--line); position:relative; }
+  .craft .c-idx{ font-family:var(--mono); font-size:.7rem; color:var(--muted); transition:color .3s; }
+  .craft .c-name{ font-family:var(--disp); font-weight:700; font-size:clamp(1.5rem,5vw,3.8rem); letter-spacing:-.02em; line-height:.95; transition:transform .35s, color .3s, text-shadow .3s; }
+  .craft .c-desc{ font-family:var(--mono); font-size:.74rem; color:var(--muted); max-width:32ch; text-align:right; opacity:.3; transition:opacity .3s; }
+  .craft:hover .c-name{ color:var(--accent); transform:translateX(.5rem); text-shadow:0 0 24px var(--glow); }
+  .craft:hover .c-idx{ color:var(--accent); } .craft:hover .c-desc{ opacity:1; }
 
-    .customer-card {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
-      position: relative;
-      transition: border-color 0.25s, transform 0.25s, background 0.25s;
-    }
-    .customer-card:hover {
-      border-color: rgba(255,255,255,0.18);
-      background: var(--bg3);
-      transform: translateY(-3px);
-    }
+  /* ---------- FEEDBACK ---------- */
+  #feedback-rail{ display:flex; gap:1rem; overflow-x:auto; padding-bottom:1rem; }
+  .fb{ flex:0 0 auto; width:min(80vw,330px); border:1px solid var(--line); background:var(--bg-3); }
+  .fb .slot{ border-bottom:1px solid var(--line); }
+  .fb-badge{ display:flex; align-items:center; gap:.55rem; padding:.7rem .9rem; }
+  .fb-dot{ width:6px; height:6px; border-radius:50%; background:var(--accent); box-shadow:0 0 8px var(--glow); flex:0 0 auto; }
+  .fb-badge span{ font-family:var(--mono); font-size:.6rem; letter-spacing:.08em; color:var(--muted); text-transform:uppercase; }
 
-    /* subtle green glow on top edge — nod to the Discord green reactions */
-    .customer-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(34,197,94,0.5), transparent);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .customer-card:hover::before { opacity: 1; }
+  /* ---------- ABOUT ---------- */
+  #about-grid{ display:grid; grid-template-columns:1.15fr .85fr; gap:clamp(2.5rem,6vw,6rem); align-items:center; }
+  .about-lead{ font-family:var(--disp); font-weight:600; font-size:clamp(1.5rem,3.2vw,2.5rem); line-height:1.28; letter-spacing:-.01em; }
+  .about-lead b{ color:var(--accent); font-weight:700; }
+  .about-sub{ margin-top:1.6rem; font-family:var(--mono); font-size:.82rem; color:var(--muted); max-width:54ch; line-height:1.9; }
+  .about-roles{ display:flex; flex-direction:column; gap:.8rem; }
+  .role{ position:relative; border:1px solid var(--line); background:var(--bg-3); padding:1.1rem 1.3rem; transition:border-color .25s, transform .25s; }
+  .role:hover{ border-color:var(--accent); transform:translateX(5px); }
+  .role .rt{ font-family:var(--disp); font-weight:600; font-size:.95rem; margin-bottom:.3rem; }
+  .role .rd{ font-family:var(--mono); font-size:.68rem; color:var(--muted); line-height:1.6; }
+  .role .rt em{ font-style:normal; color:var(--accent); }
 
-    .customer-screenshot {
-      width: 100%;
-      display: block;
-      object-fit: cover;
-    }
+  /* ---------- CONTACT ---------- */
+  #contact{ background:var(--bg-2); }
+  .contact-kicker{ font-family:var(--mono); font-size:.72rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); margin-bottom:1.2rem; }
+  .contact-big{ font-family:var(--disp); font-weight:700; font-size:clamp(3rem,12vw,10rem); line-height:.86; letter-spacing:-.03em; text-shadow:0 0 30px rgba(255,255,255,.14); }
+  .contact-big i{ font-style:normal; color:var(--accent); text-shadow:0 0 30px var(--glow); }
+  .contact-rows{ margin-top:clamp(2.5rem,5vw,4rem); border-top:1px solid var(--line); }
+  .c-row{ display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:1.25rem 0; border-bottom:1px solid var(--line); transition:padding-left .3s, color .25s; }
+  .c-row:hover{ padding-left:1rem; color:var(--accent); }
+  .c-row .k{ font-family:var(--mono); font-size:.66rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+  .c-row .v{ font-family:var(--disp); font-weight:600; font-size:clamp(1.1rem,2.4vw,1.7rem); }
+  .c-row .go{ font-family:var(--mono); font-size:.68rem; opacity:.6; }
 
-    .customer-badge {
-      display: flex;
-      align-items: center;
-      gap: 0.55rem;
-      padding: 0.85rem 1.1rem;
-      border-top: 1px solid var(--border);
-    }
-    .badge-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: #22c55e;
-      flex-shrink: 0;
-      animation: pdot 2s ease-in-out infinite;
-    }
-    .badge-text {
-      font-family: var(--mono);
-      font-size: 0.68rem;
-      color: var(--muted);
-      letter-spacing: 0.06em;
-    }
+  /* ---------- FOOTER ---------- */
+  footer{ position:relative; z-index:2; padding:2rem var(--mx); display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap; border-top:1px solid var(--line); }
+  footer .fmono{ font-family:var(--mono); font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+  footer b{ font-family:var(--disp); color:var(--ink); font-weight:700; }
 
-    /* CONTACT */
-    #contact { background: var(--bg2); }
-    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; max-width: 1000px; align-items: start; }
-    .contact-intro { font-family: var(--mono); font-size: 0.86rem; color: var(--muted); line-height: 1.85; margin-bottom: 2rem; }
-    .contact-links { display: flex; flex-direction: column; gap: 0.7rem; }
-    .contact-link { display: flex; align-items: center; gap: 1rem; font-family: var(--mono); font-size: 0.82rem; color: var(--muted); text-decoration: none; border: 1px solid var(--border); border-radius: 6px; padding: 0.9rem 1.2rem; transition: border-color 0.2s, color 0.2s, transform 0.2s; cursor: none; }
-    .contact-link:hover { border-color: rgba(255,255,255,0.18); color: var(--text); transform: translateX(4px); }
-    .contact-meta { display: flex; flex-direction: column; gap: 0.7rem; }
-    .meta-card { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 1.3rem 1.5rem; }
-    .meta-label { font-family: var(--mono); font-size: 0.62rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 0.35rem; }
-    .meta-value { font-family: var(--mono); font-size: 0.85rem; }
-    .status-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #22c55e; margin-right: 0.5rem; animation: pdot 2s ease-in-out infinite; }
+  /* ---------- CASE STUDY ---------- */
+  #case{ position:fixed; inset:0; z-index:100; background:var(--bg); overflow-y:auto; transform:translateY(2%); opacity:0; pointer-events:none; transition:opacity .4s ease, transform .4s ease; }
+  #case.open{ opacity:1; transform:none; pointer-events:auto; }
+  .case-inner{ max-width:1080px; margin:0 auto; padding:clamp(4.5rem,8vw,6rem) var(--mx) 5rem; }
+  .case-close{ position:fixed; top:1.1rem; right:var(--mx); z-index:101; font-family:var(--mono); font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; border:1px solid var(--line-2); background:var(--bg-2); padding:.6rem 1rem; cursor:pointer; color:var(--ink); transition:background .25s,color .25s,border-color .25s; }
+  .case-close:hover{ background:var(--accent); color:#0A0A0C; border-color:var(--accent); }
+  .case-eyebrow{ display:flex; align-items:center; gap:.7rem; margin-bottom:1.3rem; }
+  .case-eyebrow .b{ width:8px; height:8px; background:var(--accent); box-shadow:0 0 8px var(--glow); }
+  .case-title{ font-family:var(--disp); font-weight:700; font-size:clamp(2.3rem,7vw,4.8rem); letter-spacing:-.03em; line-height:.95; margin-bottom:1.6rem; }
+  .case-hero{ position:relative; aspect-ratio:16/9; margin:1.5rem 0 2.5rem; background:#000; border:1px solid var(--line-2); overflow:hidden; }
+  .case-hero iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
+  .case-grid{ display:grid; grid-template-columns:repeat(12,1fr); gap:2rem; }
+  .case-desc{ grid-column:span 7; font-family:var(--mono); font-size:.9rem; line-height:1.9; color:var(--ink-2); }
+  .case-side{ grid-column:span 5; display:flex; flex-direction:column; gap:1.6rem; }
+  .case-block h4{ font-family:var(--mono); font-size:.62rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:.7rem; }
+  .case-block ul{ list-style:none; display:flex; flex-direction:column; gap:.4rem; }
+  .case-block li{ font-family:var(--mono); font-size:.82rem; color:var(--ink); border-bottom:1px solid var(--line); padding-bottom:.4rem; }
+  .case-tags{ display:flex; flex-wrap:wrap; gap:.5rem; }
+  .case-tags span{ font-family:var(--mono); font-size:.6rem; letter-spacing:.08em; text-transform:uppercase; border:1px solid var(--line-2); padding:.3rem .6rem; color:var(--ink-2); }
 
-    /* FOOTER */
-    footer { padding: 2rem 4rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: var(--bg2); }
-    .footer-logo { font-family: var(--mono); font-size: 0.85rem; color: var(--text); }
-    .footer-copy { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); }
-    .footer-links { display: flex; gap: 2rem; list-style: none; }
-    .footer-links a { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); text-decoration: none; transition: color 0.2s; cursor: none; }
-    .footer-links a:hover { color: var(--text); }
+  /* ---------- REVEAL ---------- */
+  .reveal{ opacity:0; transform:translateY(22px); transition:opacity .8s ease, transform .8s ease; }
+  .reveal.in{ opacity:1; transform:none; }
 
-    .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
-    .fade-up.visible { opacity: 1; transform: none; }
+  /* ---------- CURSOR GLOW + static rows ---------- */
+  #cursor-glow{ position:fixed; z-index:40; top:0; left:0; width:360px; height:360px; border-radius:50%; pointer-events:none; transform:translate(-50%,-50%); background:radial-gradient(circle, rgba(255,120,70,.24) 0%, rgba(255,61,20,.10) 34%, transparent 70%); filter:blur(26px); mix-blend-mode:screen; opacity:0; transition:opacity .4s ease; }
+  #cursor-glow.on{ opacity:1; }
+  .c-row.static{ cursor:default; }
+  .c-row.static:hover{ padding-left:0; color:inherit; }
 
-    @media (max-width: 900px) {
-      nav { padding: 1rem 1.5rem; }
-      #hero, section { padding-left: 1.5rem; padding-right: 1.5rem; }
-      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-      footer { flex-direction: column; gap: 1rem; text-align: center; padding: 1.5rem; }
-    }
-    @media (max-width: 600px) {
-      .nav-links { display: none; }
-      .hero-name { font-size: 3.2rem; }
-    }
-  </style>
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:1000px){
+    .hero-split{ grid-template-columns:1fr; gap:3rem; }
+    .hud-frame{ transform:none; } .hero-visual{ perspective:none; }
+    #about-grid{ grid-template-columns:1fr; align-items:start; }
+    .case-desc,.case-side{ grid-column:span 12; }
+    .work[data-size]{ grid-column:span 6; }
+    .work[data-size="feature"],.work[data-size="wide"]{ grid-column:span 12; }
+  }
+  @media (max-width:720px){
+    .nav-mid{ display:none; }
+    .hero-name{ font-size:clamp(3rem,17vw,5rem); }
+    .stats{ grid-template-columns:repeat(2,1fr); }
+    .stat:nth-child(3){ border-left:0; } .stat:nth-child(3),.stat:nth-child(4){ border-top:1px solid var(--line); }
+    #work-grid .work[data-size]{ grid-column:span 12; }
+    .craft{ grid-template-columns:auto 1fr; } .craft .c-desc{ display:none; }
+    .sec-note{ display:none; }
+  }
+  @media (max-width:440px){ .stats{ grid-template-columns:1fr; } .stat{ border-left:0 !important; border-top:1px solid var(--line); } .stat:first-child{ border-top:0; } }
+  @media (prefers-reduced-motion:reduce){ *{ animation:none !important; transition:none !important; scroll-behavior:auto !important; } .reveal{ opacity:1; transform:none; } .hud-frame{ transform:none; } }
+</style>
 </head>
 <body>
 
-  <div id="cursor-glow"></div>
-  <div id="cursor-dot"></div>
+<!-- NAV -->
+<nav id="nav">
+  <a href="#hero" class="brand">Ginoqie<i>.</i></a>
+  <ul class="nav-mid">
+    <li><a href="#about" data-sp="about">About</a></li>
+    <li><a href="#work" data-sp="work">Demos</a></li>
+    <li><a href="#environments" data-sp="environments">Maps</a></li>
+    <li><a href="#craft" data-sp="craft">Skills</a></li>
+    <li><a href="#feedback" data-sp="feedback">Reviews</a></li>
+  </ul>
+  <a href="#contact" class="hire">Hire me ↗</a>
+</nav>
 
-  <nav>
-    <a class="nav-logo" href="#hero">Ginoqie<span>.</span></a>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#services">Services</a></li>
-      <li><a href="#projects">Demos</a></li>
-      <li><a href="#maps">Maps</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#customers">Reviews</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
-
-  <!-- HERO -->
-  <section id="hero">
-    <div class="hero-orb orb1"></div>
-    <div class="hero-orb orb2"></div>
-    <div class="hero-tag"><span class="avail-dot"></span>Available for short-term projects</div>
-    <h1 class="hero-name"><span class="glow-text">Gino</span><span class="dim">qie</span></h1>
-    <p class="hero-sub">Roblox Game Developer, building FPS systems, parkour mechanics, advanced movement, monster AI, GUI, and immersive game experiences in Roblox Studio.</p>
-    <div class="hero-ctas">
-      <a href="#projects" class="btn btn-primary">View Projects →</a>
-      <a href="#contact" class="btn btn-secondary">Contact Me</a>
-    </div>
-    <div class="hero-scroll"><div class="scroll-line"></div>Scroll</div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="about-grid fade-up">
-      <div class="about-text">
-        <div class="section-label">Who I am</div>
-        <h2 class="section-title">About Me</h2>
-        <p>I'm <strong>Ginoqie</strong>, a dedicated Roblox game developer with over <strong>1 year of hands-on experience</strong> building systems, mechanics, and experiences inside Roblox Studio.</p>
-        <p>My core focus is <strong>Roblox game development</strong>. I build things like FPS systems, parkour, advanced movement, NPC AI, monster AI, GUI/UI, loading screens, and game mechanics that feel good to play.</p>
-        <p>I also created a <strong>Brainrot Template</strong> and an NPC system inspired by Forge's NPC system. On the creative side, I handle <strong>thumbnails, posters, and VFX</strong>, making sure games look and feel polished from start to finish.</p>
-        <p>I'm a <strong>short-term scripter</strong>. I take focused, scoped projects and deliver within a maximum of one week. No long commitments, just clean and fast results.</p>
+<!-- HERO -->
+<header id="hero">
+  <div class="hero-split">
+    <div>
+      <span class="pill"><span class="dot"></span> Available for new projects</span>
+      <h1 class="hero-name">Ginoqie<i>.</i></h1>
+      <div class="slashes"><span class="ln"></span><span class="sl">///</span></div>
+      <p class="hero-desc">Roblox game developer building <b>FPS systems</b>, parkour mechanics, advanced movement, <b>monster AI</b>, GUI and immersive game experiences in Roblox Studio.</p>
+      <div class="hero-ctas">
+        <a href="#work" class="btn btn-primary">View projects <span class="arw">↗</span></a>
+        <a href="#contact" class="btn btn-ghost"><span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>Contact me <span class="arw">↗</span></a>
       </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hud-frame">
+        <span class="hud-glow-edge"></span>
+        <span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>
+        <span class="plus tl"></span><span class="plus br"></span>
+        <span class="hud-tri"></span>
+        <div class="slot" data-src="MAP1.png" data-label="MAP1 · WAREHOUSE">
+          <img alt="Environment render — Roblox industrial map" loading="eager"/>
+          <div class="ph"><span class="ph-top">Environment · Render</span><span class="ph-name">GQ.</span></div>
+        </div>
+        <div class="hud-foot">
+          <span class="segs"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></span>
+          <span class="hud-idx"><b>01</b> / 06</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-shell reveal">
+    <span class="plus tl"></span><span class="plus tr"></span><span class="plus bl"></span><span class="plus br"></span>
+    <div class="stats">
+      <div class="stat">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"/></svg></span>
+        <div class="n">1+</div><div class="l">Year Experience</div>
+      </div>
+      <div class="stat">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 6l-5 6 5 6M16 6l5 6-5 6"/></svg></span>
+        <div class="n">10+</div><div class="l">Systems Built</div>
+      </div>
+      <div class="stat">
+        <span class="ic"><span class="luatxt">Lua</span></span>
+        <div class="n">Lua</div><div class="l">Primary Language</div>
+      </div>
+      <div class="stat">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="13" rx="1"/><path d="M8 21h8M12 17v4M10 8.5l4 2.5-4 2.5z"/></svg></span>
+        <div class="n">5+</div><div class="l">Live Demos</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- WORK / DEMOS -->
+<section id="work" class="section">
+  <div class="sec-head reveal">
+    <div>
+      <div class="sec-index"><span class="b"></span> 02 — Selected work</div>
+      <h2 class="sec-title">Systems &amp; Demos</h2>
+    </div>
+    <p class="sec-note">Live demos of gameplay systems built from scratch. Tap any piece for the full breakdown.</p>
+  </div>
+  <div id="work-grid" class="reveal"></div>
+</section>
+
+<!-- ENVIRONMENTS / MAPS -->
+<section id="environments" class="section alt">
+  <div class="sec-head reveal">
+    <div>
+      <div class="sec-index"><span class="b"></span> 03 — Environments</div>
+      <h2 class="sec-title">Worlds &amp; Maps</h2>
+    </div>
+    <p class="sec-note">Interiors, horror sets and template worlds. Layout, lighting and set dressing.</p>
+  </div>
+  <div id="env-rail" class="reveal"></div>
+  <div class="rail-hint reveal"><span class="b"></span><span class="mono">Drag / scroll horizontally</span></div>
+</section>
+
+<!-- CRAFT / SKILLS -->
+<section id="craft" class="section">
+  <div class="sec-head reveal">
+    <div>
+      <div class="sec-index"><span class="b"></span> 04 — Craft</div>
+      <h2 class="sec-title">Capabilities</h2>
+    </div>
+    <p class="sec-note">Hover a discipline for the detail. Honest about the range.</p>
+  </div>
+  <div class="craft-list reveal" id="craft-list"></div>
+</section>
+
+<!-- FEEDBACK / REVIEWS -->
+<section id="feedback" class="section alt">
+  <div class="sec-head reveal">
+    <div>
+      <div class="sec-index"><span class="b"></span> 05 — Field notes</div>
+      <h2 class="sec-title">Client Reviews</h2>
+    </div>
+    <p class="sec-note">Real messages from real clients. Straight from Discord.</p>
+  </div>
+  <div id="feedback-rail" class="reveal">
+    <div class="fb"><div class="slot" data-src="Customer1.png"><img alt="Client feedback" loading="lazy"/><div class="ph"><span class="ph-top">Discord</span><span class="ph-name">Review 01</span></div></div><div class="fb-badge"><span class="fb-dot"></span><span>Verified client · Discord</span></div></div>
+    <div class="fb"><div class="slot" data-src="Customer2.png"><img alt="Client feedback" loading="lazy"/><div class="ph"><span class="ph-top">Discord</span><span class="ph-name">Review 02</span></div></div><div class="fb-badge"><span class="fb-dot"></span><span>Verified client · Discord</span></div></div>
+    <div class="fb"><div class="slot" data-src="Customer3.png"><img alt="Client feedback" loading="lazy"/><div class="ph"><span class="ph-top">Discord</span><span class="ph-name">Review 03</span></div></div><div class="fb-badge"><span class="fb-dot"></span><span>Verified client · Discord</span></div></div>
+    <div class="fb"><div class="slot" data-src="Customer4.png"><img alt="Client feedback" loading="lazy"/><div class="ph"><span class="ph-top">Discord</span><span class="ph-name">Review 04</span></div></div><div class="fb-badge"><span class="fb-dot"></span><span>Verified client · Discord</span></div></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section">
+  <div class="sec-head reveal">
+    <div>
+      <div class="sec-index"><span class="b"></span> 06 — About</div>
+      <h2 class="sec-title">The Developer</h2>
+    </div>
+    <p class="sec-note">Clean, modular systems. Built to feel good to play.</p>
+  </div>
+  <div id="about-grid" class="reveal">
+    <div>
+      <p class="about-lead">I build Roblox games and the systems inside them — mostly <b>movement</b>, <b>FPS</b>, <b>AI</b>, <b>UI</b> and <b>environments</b>.</p>
+      <p class="about-sub">I write clean, modular systems and full game features, and I make games feel finished — from mechanics to thumbnails. I built the Brainrot Template and an NPC system inspired by Forge's.</p>
+    </div>
+    <div class="about-roles">
+      <div class="role"><div class="rt"><em>›</em> Game Developer</div><div class="rd">Full gameplay systems — mechanics to UI — inside Roblox Studio.</div></div>
+      <div class="role"><div class="rt"><em>›</em> AI &amp; NPC Scripter</div><div class="rd">Monster AI and NPC systems: smart, reactive, modular.</div></div>
+      <div class="role"><div class="rt"><em>›</em> Visual Creator</div><div class="rd">Thumbnails, posters, GUI/UI, loading screens and VFX.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section">
+  <p class="contact-kicker reveal">Have a project in mind?</p>
+  <h2 class="contact-big reveal">LET'S<br>BUILD IT<i>.</i></h2>
+  <div class="contact-rows reveal">
+    <a class="c-row" href="https://www.roblox.com/users/4057144006/profile" target="_blank" rel="noopener"><span class="k">Roblox</span><span class="v">kardinhong67</span><span class="go">open →</span></a>
+    <div class="c-row static"><span class="k">Discord</span><span class="v">ginoqie2_08668</span><span class="go"></span></div>
+    <div class="c-row static"><span class="k">Email</span><span class="v">wfh.suresh2020@gmail.com</span><span class="go"></span></div>
+  </div>
+</section>
+
+<footer>
+  <span class="fmono"><b>Ginoqie.</b></span>
+  <span class="fmono">© 2026 · Roblox Game Developer · Built for the work</span>
+  <span class="fmono">Lua / Luau</span>
+</footer>
+
+<div id="cursor-glow"></div>
+<div id="cursor-tag">View</div>
+
+<div id="case" aria-hidden="true">
+  <button class="case-close" id="case-close">Close ✕</button>
+  <div class="case-inner" id="case-inner"></div>
+</div>
+
+<script>
+/* ============ DATA (edit here to add / remove) ============ */
+const WORK = [
+  { idx:'01', size:'feature', title:'FPS Combat System', cat:'FPS / Combat', yt:'4IwjMDdCbUs',
+    role:'Systems / Gameplay', tools:['Roblox Studio','Luau'],
+    systems:['Recoil & spread','Hit detection','Viewmodel & anims','Weapon state machine'],
+    desc:'A first-person shooter core built from scratch — recoil, spread, hit detection and a viewmodel that stays sharp under fire. Tuned for feel first, then netcode-friendly.' },
+  { idx:'02', size:'wide', title:'Advanced Movement', cat:'Movement / Feel', yt:'h35A5DUmMfE',
+    role:'Systems / Feel', tools:['Roblox Studio','Luau'],
+    systems:['Sprint & momentum','Vaulting','Sliding','Custom controller'],
+    desc:'A movement layer that goes past default Roblox physics — momentum, vaulting and slides that chain together and actually feel good to hold down.' },
+  { idx:'03', size:'tall', title:'Monster AI', cat:'AI / Systems', yt:'Wgy2quzXBKk',
+    role:'AI Programmer', tools:['Roblox Studio','Luau','PathfindingService'],
+    systems:['Pathfinding','Sight & detection','Chase / search states','Attack logic'],
+    desc:'Reactive monster AI for horror and combat — pathfinds, detects, chases, loses you, then hunts your last known position. Modular state machine, drop-in ready.' },
+  { idx:'04', size:'small', title:'Ledge Climbing', cat:'Mechanics', yt:'ePffzsfqnmI',
+    role:'Mechanics', tools:['Roblox Studio','Luau'],
+    systems:['Ledge detection','Grab & mantle','Animation sync'],
+    desc:'A responsive ledge-grab and climb mechanic with clean input handling and animation that stays in sync with the mantle.' },
+  { idx:'05', size:'text', title:'NPC Reward System', cat:'NPC / Systems', yt:'nt6BKCPkJlA',
+    role:'Systems', tools:['Roblox Studio','Luau'],
+    systems:['NPC interaction','Reward logic','Clean data flow'],
+    desc:'An NPC-driven reward-collection loop — readable logic, smooth player interaction, easy to extend into quests or shops.' },
+  { idx:'06', size:'small', title:'UI / HUD', cat:'Interface', img:'ui-hud.png',
+    role:'UI / UX', tools:['Roblox Studio','Luau'],
+    systems:['HUD & menus','Inventories','Loading screens'],
+    desc:'Menus, HUDs, inventories and loading screens that look polished from the first second. Drop your own screenshot into ui-hud.png to feature it here.' },
+];
+
+const ENVS = [
+  { src:'MAP1.png', num:'01', name:'Warehouse Main Floor', disc:'Industrial / Horror · Lighting' },
+  { src:'MAP2.png', num:'02', name:'Foggy Hall',           disc:'Horror · Fog / Mood' },
+  { src:'MAP3.png', num:'03', name:'Industrial Corridor',  disc:'Interior · Level Design' },
+  { src:'MAP4.png', num:'04', name:'Operations Room',      disc:'Interior · Set Dressing' },
+  { src:'MAP5.png', num:'05', name:'Loading Dock',         disc:'Cargo · Blockout / Detail' },
+  { src:'brainrot1.png', num:'06', name:'Ancient City Street', disc:'Brainrot Template · World' },
+  { src:'Brainrot2.GIF', num:'07', name:'Beach Arena',        disc:'Brainrot Template · Arena' },
+  { src:'Brainrot3.GIF', num:'08', name:'Stone Ruins Gate',   disc:'Brainrot Template · Ruins' },
+  { src:'brainrot4.png', num:'09', name:'Lava Terrain',       disc:'Brainrot Template · Hazard' },
+];
+
+const CRAFT = [
+  ['01','Movement','Sprinting, sliding, vaulting, ledge-grabs and custom controllers.'],
+  ['02','FPS Systems','Gunplay, recoil, hit detection and viewmodels that feel sharp.'],
+  ['03','Lua / Luau','Clean, modular, readable code — built to hand off.'],
+  ['04','AI','Pathfinding, detection, chase and search for horror & combat.'],
+  ['05','UI / HUD','Menus, HUDs, inventories and loading screens.'],
+  ['06','VFX','Particles, hit effects and atmosphere — best on simpler VFX.'],
+  ['07','Environment Design','Maps and moods — layout, lighting and set dressing.'],
+  ['08','Optimization','Debugging and cleaning up existing systems, fast.'],
+];
+
+const cornerHTML = '<span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>';
+
+/* ============ IMAGE SLOT LOADER ============ */
+function loadSlot(slot){
+  const img=slot.querySelector('img'); const src=slot.dataset.src;
+  if(!img||!src){ slot.classList.add('failed'); return; }
+  img.onerror=()=>slot.classList.add('failed'); img.src=src;
+}
+function ytThumb(id){ return `https://img.youtube.com/vi/${id}/maxresdefault.jpg`; }
+
+/* ============ WORK ============ */
+const wg=document.getElementById('work-grid');
+WORK.forEach(p=>{
+  const el=document.createElement('article');
+  el.className='work'; el.dataset.size=p.size;
+  const src=p.yt?ytThumb(p.yt):p.img;
+  el.innerHTML=`
+    <div class="work-media">
+      ${cornerHTML}
+      <div class="slot" data-src="${src}">
+        <img alt="${p.title} demo" loading="lazy"/>
+        <div class="ph"><span class="ph-top">${p.cat}</span><span class="ph-name">${p.title}</span></div>
+      </div>
+      <span class="play"><span class="tri"></span> ${p.yt?'Watch demo':'Add screenshot'}</span>
+    </div>
+    <div class="work-cap">
       <div>
-        <div class="about-stats">
-          <div class="stat-card"><div class="stat-num">1+</div><div class="stat-label">Year Exp.</div></div>
-          <div class="stat-card"><div class="stat-num">10+</div><div class="stat-label">Systems Built</div></div>
-          <div class="stat-card"><div class="stat-num">Lua</div><div class="stat-label">Primary Lang.</div></div>
-          <div class="stat-card"><div class="stat-num">≤1wk</div><div class="stat-label">Delivery Time</div></div>
-        </div>
-        <div class="about-roles">
-          <div class="role-item"><div class="role-title">🎮 Game Developer</div><div class="role-desc">Building full gameplay systems from mechanics to UI inside Roblox Studio.</div></div>
-          <div class="role-item"><div class="role-title">🤖 AI & NPC Scripter</div><div class="role-desc">Monster AI, NPC systems similar to Forge: smart, reactive, and smooth.</div></div>
-          <div class="role-item"><div class="role-title">🎨 Visual Creator</div><div class="role-desc">Thumbnails, game posters, GUI/UI design, loading screens, and VFX work.</div></div>
-        </div>
+        <div class="work-name">${p.title}</div>
+        <div class="work-cat">${p.cat}</div>
+        <div class="work-reveal">${p.desc}</div>
       </div>
+      <span class="idx">${p.idx}</span>
+    </div>`;
+  el.addEventListener('click',()=>openCase(p.idx));
+  wg.appendChild(el);
+  const slot=el.querySelector('.slot');
+  if(p.yt){
+    const img=slot.querySelector('img'); let tried=false;
+    img.onerror=()=>{ if(!tried){ tried=true; img.src=`https://img.youtube.com/vi/${p.yt}/hqdefault.jpg`; } else slot.classList.add('failed'); };
+    img.src=ytThumb(p.yt);
+  } else loadSlot(slot);
+});
+document.querySelectorAll('.work-media').forEach(m=>{
+  const img=m.querySelector('img');
+  m.addEventListener('mousemove',e=>{ const r=m.getBoundingClientRect(); const dx=((e.clientX-r.left)/r.width-.5)*10; const dy=((e.clientY-r.top)/r.height-.5)*10; img.style.transform=`translate(${dx}px,${dy}px)`; });
+  m.addEventListener('mouseleave',()=>{ img.style.transform=''; });
+});
+
+/* ============ ENVIRONMENTS ============ */
+const rail=document.getElementById('env-rail');
+ENVS.forEach(e=>{
+  const el=document.createElement('div'); el.className='env';
+  el.innerHTML=`
+    ${cornerHTML}
+    <div class="slot" data-src="${e.src}">
+      <img alt="${e.name} — environment render" loading="lazy"/>
+      <div class="ph"><span class="ph-top">Env ${e.num} · replace ${e.src}</span><span class="ph-name">${e.name}</span></div>
     </div>
-  </section>
+    <div class="env-info">
+      <div><div class="env-name">${e.name}</div><div class="env-disc">${e.disc}</div></div>
+      <div class="env-num">${e.num}</div>
+    </div>`;
+  rail.appendChild(el);
+  loadSlot(el.querySelector('.slot'));
+});
+(function(){
+  let down=false,x=0,sl=0;
+  rail.addEventListener('mousedown',e=>{down=true;rail.classList.add('drag');x=e.pageX;sl=rail.scrollLeft;});
+  window.addEventListener('mouseup',()=>{down=false;rail.classList.remove('drag');});
+  rail.addEventListener('mousemove',e=>{ if(!down)return; e.preventDefault(); rail.scrollLeft=sl-(e.pageX-x)*1.4; });
+})();
 
-  <!-- SERVICES -->
-  <section id="services">
-    <div class="section-label fade-up">What I offer</div>
-    <h2 class="section-title fade-up">Services</h2>
-    <div class="services-grid fade-up">
-      <div class="service-card"><div class="service-icon">🔫</div><div class="service-title">FPS System</div><div class="service-desc">Custom first-person shooter systems with smooth gunplay, hit detection, and animations built for Roblox.</div></div>
-      <div class="service-card"><div class="service-icon">🏃</div><div class="service-title">Parkour System</div><div class="service-desc">Fluid parkour mechanics: wall-running, vaulting, sliding, all feeling responsive and satisfying.</div></div>
-      <div class="service-card"><div class="service-icon">⚡</div><div class="service-title">Advanced Movement</div><div class="service-desc">Full-featured advanced movement systems with custom physics and feel beyond default Roblox movement.</div></div>
-      <div class="service-card"><div class="service-icon">🧠</div><div class="service-title">Monster AI</div><div class="service-desc">Intelligent monster AI with pathfinding, detection, chase logic, and attack patterns for horror or combat games.</div></div>
-      <div class="service-card"><div class="service-icon">🤖</div><div class="service-title">NPC System</div><div class="service-desc">NPC systems inspired by Forge's NPC: reactive, scalable, and modular for any game genre.</div></div>
-      <div class="service-card"><div class="service-icon">🖥️</div><div class="service-title">GUI & UI Design</div><div class="service-desc">Clean and polished GUI/UI systems: menus, HUDs, inventories, and interactive elements that look and feel great.</div></div>
-      <div class="service-card"><div class="service-icon">🔧</div><div class="service-title">Debugging</div><div class="service-desc">Fast and thorough debugging. I can identify and fix issues in existing scripts and broken systems.</div></div>
-      <div class="service-card"><div class="service-icon">⚙️</div><div class="service-title">Game Mechanics</div><div class="service-desc">Solid, well-built game mechanics: combat, interactions, triggers, and custom gameplay loops.</div></div>
-      <div class="service-card"><div class="service-icon">🌀</div><div class="service-title">Loading Screens</div><div class="service-desc">Animated and stylish loading screens that set the mood and give your game a professional feel from the first second.</div></div>
-      <div class="service-card"><div class="service-icon">✨</div><div class="service-title">VFX</div><div class="service-desc">Moderate visual effects: particles, hit effects, environment details, and atmospheric visuals (best results on simple VFX).</div></div>
-      <div class="service-card"><div class="service-icon">🖼️</div><div class="service-title">Thumbnails & Posters</div><div class="service-desc">Eye-catching Roblox game thumbnails and promotional posters that get clicks and represent your game well.</div></div>
-      <div class="service-card"><div class="service-icon">🧟</div><div class="service-title">Brainrot Template</div><div class="service-desc">Creator of the Brainrot Template, a ready-to-use game template built for rapid Roblox game development.</div></div>
-    </div>
-    <div class="offer-terms fade-up">
-      <div class="term-card"><div class="term-label">Project Type</div><div class="term-value">Short-term only</div></div>
-      <div class="term-card"><div class="term-label">Delivery Time</div><div class="term-value">Max 1 week</div></div>
-      <div class="term-card"><div class="term-label">Focus</div><div class="term-value">Roblox Game Dev</div></div>
-      <div class="term-card"><div class="term-label">Availability</div><div class="term-value"><span class="status-dot"></span>Open now</div></div>
-    </div>
-  </section>
+/* ============ CRAFT ============ */
+const cl=document.getElementById('craft-list');
+CRAFT.forEach(([i,name,desc])=>{
+  const el=document.createElement('div'); el.className='craft';
+  el.innerHTML=`<span class="c-idx">${i}</span><span class="c-name">${name}</span><span class="c-desc">${desc}</span>`;
+  cl.appendChild(el);
+});
 
-  <!-- PROJECTS -->
-  <section id="projects">
-    <div class="section-label">What I've built</div>
-    <h2 class="section-title">System Demos</h2>
-    <div class="projects-grid">
-      <div class="project-card">
-        <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/h35A5DUmMfE" title="Parkour Movement" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-        <div class="project-info">
-          <div class="project-tags"><span class="tag">Parkour</span><span class="tag">Movement</span></div>
-          <div class="project-name">Parkour Movement</div>
-          <p class="project-desc">Fluid parkour movement system with smooth transitions: wall-running, vaulting, and more.</p>
-          <a href="https://youtu.be/h35A5DUmMfE" target="_blank" class="project-link">Watch on YouTube →</a>
-        </div>
+/* ============ SLOTS: feedback + hero ============ */
+document.querySelectorAll('#feedback-rail .slot').forEach(loadSlot);
+document.querySelectorAll('#hero .slot').forEach(loadSlot);
+
+/* ============ CASE STUDY ============ */
+const caseEl=document.getElementById('case'), caseInner=document.getElementById('case-inner');
+function openCase(idx){
+  const p=WORK.find(w=>w.idx===idx); if(!p)return;
+  const media=p.yt
+    ? `<div class="case-hero">${cornerHTML}<iframe src="https://www.youtube.com/embed/${p.yt}?rel=0" title="${p.title}" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`
+    : `<div class="case-hero slot" data-src="${p.img}"><img alt="${p.title}"/><div class="ph" style="display:flex"><span class="ph-top">${p.cat}</span><span class="ph-name">${p.title} — add ${p.img}</span></div></div>`;
+  caseInner.innerHTML=`
+    <div class="case-eyebrow"><span class="b"></span><span class="mono">${p.idx} — ${p.cat}</span></div>
+    <h2 class="case-title">${p.title}</h2>
+    ${media}
+    <div class="case-grid">
+      <div class="case-desc">${p.desc}</div>
+      <div class="case-side">
+        <div class="case-block"><h4>Role</h4><ul><li>${p.role}</li></ul></div>
+        <div class="case-block"><h4>Systems</h4><ul>${p.systems.map(s=>`<li>${s}</li>`).join('')}</ul></div>
+        <div class="case-block"><h4>Tools</h4><div class="case-tags">${p.tools.map(t=>`<span>${t}</span>`).join('')}</div></div>
       </div>
-      <div class="project-card">
-        <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/ePffzsfqnmI" title="Ledge Climbing" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-        <div class="project-info">
-          <div class="project-tags"><span class="tag">Ledge Climbing</span><span class="tag">Mechanics</span></div>
-          <div class="project-name">Ledge Climbing</div>
-          <p class="project-desc">Custom ledge grab and climbing mechanic with responsive input and animation.</p>
-          <a href="https://youtu.be/ePffzsfqnmI" target="_blank" class="project-link">Watch on YouTube →</a>
-        </div>
-      </div>
-      <div class="project-card">
-        <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/4IwjMDdCbUs" title="FPS Movement" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-        <div class="project-info">
-          <div class="project-tags"><span class="tag">FPS</span><span class="tag">Movement</span></div>
-          <div class="project-name">FPS Movement</div>
-          <p class="project-desc">First-person shooter movement system built from scratch. Smooth, fast, and satisfying to play.</p>
-          <a href="https://youtu.be/4IwjMDdCbUs" target="_blank" class="project-link">Watch on YouTube →</a>
-        </div>
-      </div>
+    </div>`;
+  caseEl.classList.add('open'); caseEl.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden';
+}
+function closeCase(){ caseEl.classList.remove('open'); caseEl.setAttribute('aria-hidden','true'); document.body.style.overflow=''; setTimeout(()=>caseInner.innerHTML='',400); }
+document.getElementById('case-close').addEventListener('click',closeCase);
+caseEl.addEventListener('click',e=>{ if(e.target===caseEl) closeCase(); });
+window.addEventListener('keydown',e=>{ if(e.key==='Escape') closeCase(); });
 
-      <div class="project-card">
-        <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/nt6BKCPkJlA" title="NPC Reward Collection" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-        <div class="project-info">
-          <div class="project-tags"><span class="tag">NPC</span><span class="tag">Rewards</span><span class="tag">Systems</span></div>
-          <div class="project-name">NPC Reward Collection</div>
-          <p class="project-desc">NPC-driven reward collection system with clean logic and smooth player interaction.</p>
-          <a href="https://youtu.be/nt6BKCPkJlA" target="_blank" class="project-link">Watch on YouTube →</a>
-        </div>
-      </div>
+/* ============ NAV compact + scrollspy ============ */
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{ nav.classList.toggle('compact',window.scrollY>40); },{passive:true});
+const spy=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ document.querySelectorAll('.nav-mid a').forEach(a=>a.classList.toggle('active',a.dataset.sp===e.target.id)); } }); },{rootMargin:'-45% 0px -50% 0px'});
+['work','about','environments','craft','feedback','contact'].forEach(id=>{ const s=document.getElementById(id); if(s)spy.observe(s); });
 
-      <div class="project-card">
-        <div class="yt-wrap"><iframe src="https://www.youtube.com/embed/Wgy2quzXBKk" title="Monster AI" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-        <div class="project-info">
-          <div class="project-tags"><span class="tag">Monster AI</span><span class="tag">Combat</span></div>
-          <div class="project-name">Monster AI</div>
-          <p class="project-desc">Intelligent monster AI with pathfinding, detection, chase, and attack logic built for horror and combat games.</p>
-          <a href="https://youtu.be/Wgy2quzXBKk" target="_blank" class="project-link">Watch on YouTube →</a>
-        </div>
-      </div>
-    </div>
-  </section>
+/* ============ REVEAL ============ */
+const rev=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); rev.unobserve(e.target); } }); },{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>rev.observe(el));
 
-  <!-- MAP BUILDING -->
-  <section id="maps">
-    <div class="section-label fade-up">Environment work</div>
-    <h2 class="section-title fade-up">Map Building</h2>
-    <p class="maps-intro fade-up">I can build Roblox maps and environments. Nothing crazy,, <strong>mediocre results</strong> is an honest way to put it. Good enough to make a game feel alive, set the mood, and have a solid layout. The Brainrot Template maps below are my own work.</p>
-    <div class="maps-grid fade-up">
-      <div class="map-card">
-        <div class="map-img-wrap"><img src="brainrot1.png" alt="Brainrot Map - Ancient City Street" loading="lazy" /></div>
-        <div class="map-info">
-          <div class="project-tags"><span class="tag">Brainrot Template</span><span class="tag">Environment</span></div>
-          <div class="map-name">Ancient City Street</div>
-          <p class="map-desc">Open cobblestone street with ruins, architecture, and a busy NPC-filled world. Part of the Brainrot Template.</p>
-        </div>
-      </div>
-      <div class="map-card">
-        <div class="map-img-wrap"><img src="Brainrot2.GIF" alt="Brainrot Map - Beach Arena" loading="lazy" /></div>
-        <div class="map-info">
-          <div class="project-tags"><span class="tag">Brainrot Template</span><span class="tag">Arena</span></div>
-          <div class="map-name">Beach Arena</div>
-          <p class="map-desc">Sandy beach arena with palm trees, combat tiles, and creature spawns. Vibrant and open layout.</p>
-        </div>
-      </div>
-      <div class="map-card">
-        <div class="map-img-wrap"><img src="Brainrot3.GIF" alt="Brainrot Map - Stone Ruins Gate" loading="lazy" /></div>
-        <div class="map-info">
-          <div class="project-tags"><span class="tag">Brainrot Template</span><span class="tag">Ruins</span></div>
-          <div class="map-name">Stone Ruins Gate</div>
-          <p class="map-desc">Crumbling stone ruins with a large gate opening into the main city. Atmospheric and detailed environment.</p>
-        </div>
-      </div>
-      <div class="map-card">
-        <div class="map-img-wrap"><img src="brainrot4.png" alt="Brainrot Map - Lava Terrain" loading="lazy" /></div>
-        <div class="map-info">
-          <div class="project-tags"><span class="tag">Brainrot Template</span><span class="tag">Hazard Zone</span></div>
-          <div class="map-name">Lava Terrain</div>
-          <p class="map-desc">Broken rocky terrain with glowing lava beneath, a chaotic, hazardous zone with strong atmosphere.</p>
-        </div>
-      </div>
+/* ============ CURSOR TAG ============ */
+const tag=document.getElementById('cursor-tag');
+if(window.matchMedia('(pointer:fine)').matches){
+  document.querySelectorAll('.work').forEach(w=>{
+    w.addEventListener('mouseenter',()=>tag.classList.add('on'));
+    w.addEventListener('mouseleave',()=>tag.classList.remove('on'));
+  });
+  window.addEventListener('mousemove',e=>{ tag.style.left=e.clientX+'px'; tag.style.top=e.clientY+'px'; });
+}
 
-      <div class="map-card">
-        <div class="map-img-wrap"><img src="MAP1.png" alt="Industrial Map - Warehouse Main Floor" loading="lazy" /></div>
-        <div class="map-info">
-          <div class="project-tags"><span class="tag">Commission</span><span class="tag">Industrial</span><span class="tag">Horror</span></div>
-          <div class="map-name">Warehouse Main Floor</div>
-          <p class="map-desc">Dimly lit industrial warehouse with scattered furniture, metal piping, and an eerie blue atmosphere. Commission work.</p>
-        </div>
-      </div>
+/* ============ In-page nav (smooth scroll; avoids preview external-link popup) ============ */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const id=a.getAttribute('href').slice(1); if(!id) return;
+    const t=document.getElementById(id); if(!t) return;
+    e.preventDefault();
+    const reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    t.scrollIntoView({behavior:reduce?'auto':'smooth', block:'start'});
+  });
+});
 
-      <div class="map-card">
-        <div class="map-img-wrap"><img src="MAP2.png" alt="Industrial Map - Foggy Hall" loading="lazy" /></div>
-        <div class="map-info">
-          <div class="project-tags"><span class="tag">Commission</span><span class="tag">Industrial</span><span class="tag">Horror</span></div>
-          <div class="map-name">Foggy Hall</div>
-          <p class="map-desc">Atmospheric fog rolling across the warehouse floor, tension-building layout with neon strip lights and deep shadows.</p>
-        </div>
-      </div>
-
-      <div class="map-card">
-        <div class="map-img-wrap"><img src="MAP3.png" alt="Industrial Map - Industrial Corridor" loading="lazy" /></div>
-        <div class="map-info">
-          <div class="project-tags"><span class="tag">Commission</span><span class="tag">Industrial</span><span class="tag">Interior</span></div>
-          <div class="map-name">Industrial Corridor</div>
-          <p class="map-desc">Scaffolding-framed passageway with shelving, a computer terminal, and a glowing caution sign. Tight and claustrophobic.</p>
-        </div>
-      </div>
-
-      <div class="map-card">
-        <div class="map-img-wrap"><img src="MAP4.png" alt="Industrial Map - Operations Room" loading="lazy" /></div>
-        <div class="map-info">
-          <div class="project-tags"><span class="tag">Commission</span><span class="tag">Industrial</span><span class="tag">Interior</span></div>
-          <div class="map-name">Operations Room</div>
-          <p class="map-desc">Top-down view of a cluttered ops room: desks, monitors, filing cabinets, and yellow hazard equipment under industrial lighting.</p>
-        </div>
-      </div>
-
-      <div class="map-card">
-        <div class="map-img-wrap"><img src="MAP5.png" alt="Industrial Map - Loading Dock" loading="lazy" /></div>
-        <div class="map-info">
-          <div class="project-tags"><span class="tag">Commission</span><span class="tag">Industrial</span><span class="tag">Cargo</span></div>
-          <div class="map-name">Loading Dock</div>
-          <p class="map-desc">Sealed cargo bay with hazard-striped blast doors, stacked pallets, and a ghostly mist pooling at the entrance.</p>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- SKILLS -->
-  <section id="skills">
-    <div class="section-label fade-up">What I use</div>
-    <h2 class="section-title fade-up">Skills</h2>
-    <div class="skills-grid fade-up">
-      <div class="skill-item"><div class="skill-header"><span class="skill-name">Roblox Studio</span><span class="skill-level">Expert</span></div><div class="skill-bar"><div class="skill-fill" style="width:95%"></div></div></div>
-      <div class="skill-item"><div class="skill-header"><span class="skill-name">Lua / Luau</span><span class="skill-level">Advanced</span></div><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
-      <div class="skill-item"><div class="skill-header"><span class="skill-name">FPS Systems</span><span class="skill-level">Advanced</span></div><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
-      <div class="skill-item"><div class="skill-header"><span class="skill-name">Parkour & Movement</span><span class="skill-level">Advanced</span></div><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
-      <div class="skill-item"><div class="skill-header"><span class="skill-name">GUI / UI Design</span><span class="skill-level">Advanced</span></div><div class="skill-bar"><div class="skill-fill" style="width:82%"></div></div></div>
-      <div class="skill-item"><div class="skill-header"><span class="skill-name">Monster AI</span><span class="skill-level">Advanced</span></div><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
-      <div class="skill-item"><div class="skill-header"><span class="skill-name">NPC Systems</span><span class="skill-level">Advanced</span></div><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
-      <div class="skill-item"><div class="skill-header"><span class="skill-name">Game Mechanics</span><span class="skill-level">Advanced</span></div><div class="skill-bar"><div class="skill-fill" style="width:84%"></div></div></div>
-      <div class="skill-item"><div class="skill-header"><span class="skill-name">Debugging</span><span class="skill-level">Advanced</span></div><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
-      <div class="skill-item"><div class="skill-header"><span class="skill-name">Thumbnails & Posters</span><span class="skill-level">Advanced</span></div><div class="skill-bar"><div class="skill-fill" style="width:82%"></div></div></div>
-      <div class="skill-item"><div class="skill-header"><span class="skill-name">Loading Screens</span><span class="skill-level">Advanced</span></div><div class="skill-bar"><div class="skill-fill" style="width:78%"></div></div></div>
-      <div class="skill-item"><div class="skill-header"><span class="skill-name">VFX</span><span class="skill-level">Intermediate</span></div><div class="skill-bar"><div class="skill-fill" style="width:55%"></div></div></div>
-    </div>
-  </section>
-
-  <!-- SATISFIED CUSTOMERS -->
-  <section id="customers">
-    <div class="section-label fade-up">What clients say</div>
-    <h2 class="section-title fade-up">Satisfied Customers</h2>
-    <p class="customers-intro fade-up">Real feedback from real clients, <strong>no cap</strong>. These are people I've delivered work for, straight from Discord.</p>
-    <div class="customers-grid fade-up">
-
-      <div class="customer-card">
-        <img class="customer-screenshot" src="Customer1.png" alt="Client feedback 1" loading="lazy" />
-        <div class="customer-badge">
-          <span class="badge-dot"></span>
-          <span class="badge-text">Verified client · Discord</span>
-        </div>
-      </div>
-
-      <div class="customer-card">
-        <img class="customer-screenshot" src="Customer2.png" alt="Client feedback 2" loading="lazy" />
-        <div class="customer-badge">
-          <span class="badge-dot"></span>
-          <span class="badge-text">Verified client · Discord</span>
-        </div>
-      </div>
-
-      <div class="customer-card">
-        <img class="customer-screenshot" src="Customer3.png" alt="Client feedback 3" loading="lazy" />
-        <div class="customer-badge">
-          <span class="badge-dot"></span>
-          <span class="badge-text">Verified client · Discord</span>
-        </div>
-      </div>
-
-      <div class="customer-card">
-        <img class="customer-screenshot" src="Customer4.png" alt="Client feedback 4" loading="lazy" />
-        <div class="customer-badge">
-          <span class="badge-dot"></span>
-          <span class="badge-text">Verified client · Discord</span>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact">
-    <div class="section-label fade-up">Get in touch</div>
-    <h2 class="section-title fade-up">Contact</h2>
-    <div class="contact-grid fade-up">
-      <div>
-        <p class="contact-intro">Looking for a short-term Roblox developer who delivers fast? Hit me up, I'm open to new projects and can get started quickly. Scripts delivered within a week, max.</p>
-        <div class="contact-links">
-          <a href="#" class="contact-link"><span>#</span> Discord: Ginoqie</a>
-          <a href="https://www.roblox.com/users/4057144006/profile" target="_blank" class="contact-link"><span>🎮</span> Roblox: Ginoqie</a>
-          <a href="https://www.youtube.com/@ginoqie" target="_blank" class="contact-link"><span>▶</span> YouTube: Watch my demos</a>
-        </div>
-      </div>
-      <div class="contact-meta">
-        <div class="meta-card"><div class="meta-label">Discord</div><div class="meta-value">Ginoqie</div></div>
-        <div class="meta-card"><div class="meta-label">Roblox</div><div class="meta-value">Ginoqie</div></div>
-        <div class="meta-card"><div class="meta-label">Availability</div><div class="meta-value"><span class="status-dot"></span>Open to new projects</div></div>
-        <div class="meta-card"><div class="meta-label">Focus</div><div class="meta-value">Roblox Game Development</div></div>
-        <div class="meta-card"><div class="meta-label">Project Type</div><div class="meta-value">Short-term · Max 1 week</div></div>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    <div class="footer-logo">Ginoqie.</div>
-    <div class="footer-copy">© 2026 Ginoqie · Roblox Developer Portfolio</div>
-    <ul class="footer-links">
-      <li><a href="#hero">Home</a></li>
-      <li><a href="#services">Services</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#customers">Reviews</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </footer>
-
-  <script>
-    /* ── CURSOR LAVA LAMP EFFECT ── */
-    const glow = document.getElementById('cursor-glow');
-    const dot  = document.getElementById('cursor-dot');
-
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let glowX  = mouseX;
-    let glowY  = mouseY;
-
-    const colours = [
-      'rgba(255,255,255,0.20)',
-      'rgba(200,180,255,0.18)',
-      'rgba(180,220,255,0.18)',
-      'rgba(255,210,200,0.18)',
-      'rgba(200,255,220,0.16)',
-    ];
-    let colourIdx = 0;
-    let colourT   = 0;
-
-    document.addEventListener('mousemove', e => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      dot.style.left = mouseX + 'px';
-      dot.style.top  = mouseY + 'px';
-    });
-
-    function animateCursor() {
-      glowX += (mouseX - glowX) * 0.08;
-      glowY += (mouseY - glowY) * 0.08;
-      glow.style.left = glowX + 'px';
-      glow.style.top  = glowY + 'px';
-
-      colourT += 0.003;
-      if (colourT >= 1) {
-        colourT = 0;
-        colourIdx = (colourIdx + 1) % colours.length;
-      }
-      const pulse = 1 + 0.12 * Math.sin(Date.now() * 0.0015);
-      const size  = Math.round(180 * pulse);
-      glow.style.width  = size + 'px';
-      glow.style.height = size + 'px';
-      glow.style.background = `radial-gradient(circle, ${colours[colourIdx]} 0%, rgba(255,255,255,0.04) 40%, transparent 70%)`;
-
-      requestAnimationFrame(animateCursor);
-    }
-    animateCursor();
-
-    /* ── FADE-UP ON SCROLL ── */
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.12 });
-    document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
-  </script>
+/* ============ CURSOR GLOW ============ */
+(function(){
+  if(!window.matchMedia('(pointer:fine)').matches) return;
+  const g=document.getElementById('cursor-glow');
+  let tx=innerWidth/2, ty=innerHeight/2, gx=tx, gy=ty, shown=false;
+  addEventListener('mousemove',e=>{ tx=e.clientX; ty=e.clientY; if(!shown){ shown=true; g.classList.add('on'); } },{passive:true});
+  document.addEventListener('mouseleave',()=>{ shown=false; g.classList.remove('on'); });
+  (function loop(){ gx+=(tx-gx)*0.16; gy+=(ty-gy)*0.16; g.style.left=gx+'px'; g.style.top=gy+'px'; requestAnimationFrame(loop); })();
+})();
+</script>
 </body>
 </html>
