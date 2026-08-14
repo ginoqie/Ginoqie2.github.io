@@ -42,7 +42,6 @@
     line-height:1.5;
     -webkit-font-smoothing:antialiased;
   }
-  /* faint grid + vignette */
   body::before{
     content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
     background-image:
@@ -60,14 +59,12 @@
   .mono{ font-family:var(--mono); font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
   .accent{ color:var(--accent); }
 
-  /* HUD corner brackets */
   .c{ position:absolute; width:13px; height:13px; border:1.5px solid var(--accent); z-index:4; pointer-events:none; }
   .c.tl{ top:-1px; left:-1px; border-right:0; border-bottom:0; }
   .c.tr{ top:-1px; right:-1px; border-left:0; border-bottom:0; }
   .c.bl{ bottom:-1px; left:-1px; border-right:0; border-top:0; }
   .c.br{ bottom:-1px; right:-1px; border-left:0; border-top:0; }
 
-  /* plus tick marks */
   .plus{ position:absolute; width:10px; height:10px; z-index:4; pointer-events:none; opacity:.5; }
   .plus::before,.plus::after{ content:''; position:absolute; background:var(--muted); }
   .plus::before{ left:50%; top:0; width:1px; height:100%; transform:translateX(-.5px); }
@@ -125,7 +122,6 @@
   .btn-ghost:hover{ border-color:var(--accent); color:var(--accent); }
   .btn-ghost .c{ width:9px; height:9px; }
 
-  /* hero visual — HUD frame */
   .hero-visual{ perspective:1600px; }
   .hud-frame{
     position:relative; aspect-ratio:16/11;
@@ -174,112 +170,70 @@
   .ph .ph-top{ font-family:var(--mono); font-size:.6rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
   .ph .ph-name{ font-family:var(--disp); font-weight:700; font-size:clamp(1rem,2.4vw,1.5rem); color:var(--ink-2); }
 
-  /* ---------- MAP SHOWCASE SECTION (UPDATED) ---------- */
-  .map-showcase {
-      max-width: 100%;
-  }
-
-  .map-showcase h2 {
-      font-size: 2.5rem;
-      margin-bottom: 30px;
-      text-align: center;
-      border-bottom: 2px solid #2d3748;
-      padding-bottom: 15px;
-  }
-
-  .category-section {
-      margin-bottom: 40px;
-  }
-
+  /* ---------- MAP & GRAPHICS SHOWCASE SECTIONS ---------- */
+  .map-showcase { max-width: 100%; }
+  .category-section { margin-bottom: 40px; }
   .category-section h3 {
-      font-size: 1.5rem;
-      margin-bottom: 20px;
-      color: var(--accent);
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--disp);
   }
-
   .map-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
   }
-
   .map-card {
-      background-color: var(--card-bg, #1a1c23);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      border: 1px solid var(--line);
+    background-color: #1a1c23;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid var(--line);
   }
-
   .map-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.4);
-      border-color: var(--accent);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.4);
+    border-color: var(--accent);
   }
-
   .map-card img {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-      border-bottom: 2px solid #2d3748;
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-bottom: 2px solid #2d3748;
   }
-
-  .map-card-content {
-      padding: 15px;
-  }
-
-  .map-card h4 {
-      margin: 0 0 8px 0;
-      font-size: 1.2rem;
-      font-family: var(--disp);
-  }
-
-  .map-card p {
-      margin: 0;
-      font-size: 0.9rem;
-      color: var(--text-muted, #9ca3af);
-      line-height: 1.4;
-      font-family: var(--mono);
-  }
+  .map-card-content { padding: 15px; }
+  .map-card h4 { margin: 0 0 8px 0; font-size: 1.2rem; font-family: var(--disp); }
+  .map-card p { margin: 0; font-size: 0.9rem; color: #9ca3af; line-height: 1.4; font-family: var(--mono); }
 
   .featured-card {
-      grid-column: 1 / -1;
-      display: flex;
-      flex-direction: row;
-      background: linear-gradient(135deg, #1a1c23 0%, #252836 100%);
-      border: 1px solid var(--accent);
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: row;
+    background: linear-gradient(135deg, #1a1c23 0%, #252836 100%);
+    border: 1px solid var(--accent);
   }
-
   .featured-card img {
-      width: 50%;
-      height: auto;
-      min-height: 250px;
-      border-bottom: none;
-      border-right: 1px solid #2d3748;
-      object-fit: cover;
+    width: 50%;
+    height: auto;
+    min-height: 250px;
+    border-bottom: none;
+    border-right: 1px solid #2d3748;
+    object-fit: cover;
   }
-
   .featured-card .map-card-content {
-      padding: 25px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
-
   @media (max-width: 768px) {
-      .featured-card {
-          flex-direction: column;
-      }
-      .featured-card img {
-          width: 100%;
-          height: 200px;
-          border-right: none;
-          border-bottom: 1px solid #2d3748;
-      }
+    .featured-card { flex-direction: column; }
+    .featured-card img { width: 100%; height: 200px; border-right: none; border-bottom: 1px solid #2d3748; }
   }
 
   /* ---------- WORK ---------- */
@@ -309,28 +263,6 @@
 
   #cursor-tag{ position:fixed; z-index:80; top:0; left:0; pointer-events:none; font-family:var(--mono); font-size:.58rem; letter-spacing:.16em; text-transform:uppercase; background:var(--accent); color:#0A0A0C; padding:.4rem .6rem; box-shadow:0 0 18px var(--glow); transform:translate(-50%,-160%) scale(.6); opacity:0; transition:opacity .2s, transform .2s; }
   #cursor-tag.on{ opacity:1; transform:translate(-50%,-160%) scale(1); }
-
-  /* ---------- ENVIRONMENTS ---------- */
-  #env-rail{ display:flex; gap:clamp(1rem,1.5vw,1.5rem); overflow-x:auto; padding-bottom:1.4rem; scroll-snap-type:x proximity; cursor:grab; user-select:none; -webkit-overflow-scrolling:touch; }
-  #env-rail.drag{ cursor:grabbing; scroll-snap-type:none; }
-  #env-rail.drag .env{ pointer-events:none; }
-  #env-rail::-webkit-scrollbar{ height:6px; } 
-  #env-rail::-webkit-scrollbar-track{ background:var(--bg-3); }
-  #env-rail::-webkit-scrollbar-thumb{ background:var(--line-2); border-radius:3px; }
-  #env-rail::-webkit-scrollbar-thumb:hover{ background:var(--accent); }
-  
-  .env{ position:relative; flex:0 0 auto; width:min(78vw,520px); scroll-snap-align:start; border:1px solid var(--line); }
-  .env .slot{ aspect-ratio:16/10; }
-  .env .slot img{ transition:transform .7s cubic-bezier(.16,1,.3,1), filter .4s; filter:grayscale(.2) brightness(.85); }
-  .env:hover .slot img{ transform:scale(1.05); filter:none; }
-  .env:hover .c{ opacity:1; } .env .c{ opacity:0; transition:opacity .3s; }
-  .env-info{ position:absolute; left:0; right:0; bottom:0; z-index:3; padding:1rem; display:flex; align-items:flex-end; justify-content:space-between; gap:1rem; background:linear-gradient(to top,rgba(10,10,12,.9),transparent); opacity:0; transform:translateY(8px); transition:opacity .35s, transform .35s; }
-  .env:hover .env-info{ opacity:1; transform:none; }
-  .env-num{ font-family:var(--mono); font-size:.64rem; letter-spacing:.14em; color:var(--accent); }
-  .env-name{ font-family:var(--disp); font-weight:700; font-size:1.15rem; line-height:1.05; }
-  .env-disc{ font-family:var(--mono); font-size:.58rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-top:.2rem; }
-  .rail-hint{ margin-top:1rem; display:flex; align-items:center; gap:.6rem; }
-  .rail-hint .b{ width:6px; height:6px; background:var(--accent); }
 
   /* ---------- CRAFT ---------- */
   .craft-list{ border-top:1px solid var(--line); }
@@ -388,7 +320,6 @@
   .case-eyebrow .b{ width:8px; height:8px; background:var(--accent); box-shadow:0 0 8px var(--glow); }
   .case-title{ font-family:var(--disp); font-weight:700; font-size:clamp(2.3rem,7vw,4.8rem); letter-spacing:-.03em; line-height:.95; margin-bottom:1.6rem; }
   
-  /* FIXED VIDEO STYLING */
   .case-hero{ position:relative; width:100%; padding-bottom:56.25%; height:0; margin:1.5rem 0 2.5rem; background:#000; border:1px solid var(--line-2); overflow:hidden; }
   @supports (aspect-ratio: 16 / 9) {
     .case-hero { padding-bottom: 0; aspect-ratio: 16 / 9; height: auto; }
@@ -404,17 +335,14 @@
   .case-tags{ display:flex; flex-wrap:wrap; gap:.5rem; }
   .case-tags span{ font-family:var(--mono); font-size:.6rem; letter-spacing:.08em; text-transform:uppercase; border:1px solid var(--line-2); padding:.3rem .6rem; color:var(--ink-2); }
 
-  /* ---------- REVEAL ---------- */
   .reveal{ opacity:0; transform:translateY(22px); transition:opacity .8s ease, transform .8s ease; }
   .reveal.in{ opacity:1; transform:none; }
 
-  /* ---------- CURSOR GLOW + static rows ---------- */
   #cursor-glow{ position:fixed; z-index:40; top:0; left:0; width:360px; height:360px; border-radius:50%; pointer-events:none; transform:translate(-50%,-50%); background:radial-gradient(circle, rgba(255,120,70,.24) 0%, rgba(255,61,20,.10) 34%, transparent 70%); filter:blur(26px); mix-blend-mode:screen; opacity:0; transition:opacity .4s ease; }
   #cursor-glow.on{ opacity:1; }
   .c-row.static{ cursor:default; }
   .c-row.static:hover{ padding-left:0; color:inherit; }
 
-  /* ---------- RESPONSIVE ---------- */
   @media (max-width:1000px){
     .hero-split{ grid-template-columns:1fr; gap:3rem; }
     .hud-frame{ transform:none; } .hero-visual{ perspective:none; }
@@ -444,7 +372,8 @@
   <ul class="nav-mid">
     <li><a href="#about" data-sp="about">About</a></li>
     <li><a href="#work" data-sp="work">Demos</a></li>
-    <li><a href="#environments" data-sp="environments">Maps</a></li>
+    <li><a href="#environments" data-sp="environments">Worlds</a></li>
+    <li><a href="#graphics" data-sp="graphics">Graphics</a></li>
     <li><a href="#craft" data-sp="craft">Skills</a></li>
     <li><a href="#feedback" data-sp="feedback">Reviews</a></li>
   </ul>
@@ -471,9 +400,9 @@
         <span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>
         <span class="plus tl"></span><span class="plus br"></span>
         <span class="hud-tri"></span>
-        <div class="slot" data-src="Spider-Noir Icon.jfif" data-label="SPIDER-NOIR · FEATURED">
-          <img alt="Spider-Noir Build" loading="eager"/>
-          <div class="ph"><span class="ph-top">Featured Build</span><span class="ph-name">Spider-Noir</span></div>
+        <div class="slot" data-src="Spider-Noir Icon.jfif" data-label="SPIDER-NOIR · GRAPHIC">
+          <img alt="Spider-Noir Artwork" loading="eager"/>
+          <div class="ph"><span class="ph-top">Graphic Art</span><span class="ph-name">Spider-Noir</span></div>
         </div>
         <div class="hud-foot">
           <span class="segs"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></span>
@@ -519,31 +448,43 @@
   <div id="work-grid" class="reveal"></div>
 </section>
 
-<!-- ENVIRONMENTS / MAPS (UPDATED WITH ALL BUILDS & SPIDER-NOIR FIRST) -->
-<section id="environments" class="section alt">
+<!-- GRAPHICS & ARTWORK SECTION (CORRECTED) -->
+<section id="graphics" class="section alt">
   <div class="sec-head reveal">
     <div>
-      <div class="sec-index"><span class="b"></span> 03 — Environments</div>
+      <div class="sec-index"><span class="b"></span> 03 — Visuals</div>
+      <h2 class="sec-title">Graphics &amp; Artwork</h2>
+    </div>
+    <p class="sec-note">Character renders, atmospheric post-processing, and custom graphics.</p>
+  </div>
+  
+  <div class="map-showcase reveal">
+    <div class="category-section">
+      <h3>🎨 Character &amp; Poster Art</h3>
+      <div class="map-grid">
+        <div class="map-card featured-card">
+          <img src="Spider-Noir Icon.jfif" alt="Spider-Noir Graphic">
+          <div class="map-card-content">
+            <h4>Spider-Noir Graphic Art</h4>
+            <p>Atmospheric stylized character showcase featuring dramatic lighting, halftone texture details, and cinematic composition aesthetics.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ENVIRONMENTS / MAPS -->
+<section id="environments" class="section">
+  <div class="sec-head reveal">
+    <div>
+      <div class="sec-index"><span class="b"></span> 04 — Environments</div>
       <h2 class="sec-title">Worlds &amp; Maps</h2>
     </div>
     <p class="sec-note">Interiors, horror sets and template worlds. Layout, lighting and set dressing.</p>
   </div>
   
   <div class="map-showcase reveal">
-    <!-- Featured / First Page Item -->
-    <div class="category-section">
-      <h3>⭐ Featured Build</h3>
-      <div class="map-grid">
-        <div class="map-card featured-card">
-          <img src="Spider-Noir Icon.jfif" alt="Spider-Noir Icon">
-          <div class="map-card-content">
-            <h4>Spider-Noir Build</h4>
-            <p>Atmospheric cinematic interior shot featuring dark moody lighting, tactical layout design, and custom post-processing overlay aesthetics.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- Lobby Builds Section -->
     <div class="category-section">
       <h3>🏙️ Lobby Builds</h3>
@@ -558,21 +499,21 @@
         <div class="map-card">
           <img src="Lobby Build2.png" alt="Lobby Build2">
           <div class="map-card-content">
-            <h4>Lobby Build2</h4>
+            <h4>Lobby Build 2</h4>
             <p>Street-level perspective featuring storefronts, street furniture, a patrol vehicle, and character placement.</p>
           </div>
         </div>
         <div class="map-card">
           <img src="Lobby Build3.png" alt="Lobby Build3">
           <div class="map-card-content">
-            <h4>Lobby Build3</h4>
+            <h4>Lobby Build 3</h4>
             <p>Additional street angle highlighting the urban layout and environment design.</p>
           </div>
         </div>
         <div class="map-card">
           <img src="Lobbyy Build4.png" alt="Lobbyy Build4">
           <div class="map-card-content">
-            <h4>Lobbyy Build4</h4>
+            <h4>Lobby Build 4</h4>
             <p>Extended showcase angle of the city setting.</p>
           </div>
         </div>
@@ -593,14 +534,14 @@
         <div class="map-card">
           <img src="Horror Build2.png" alt="Horror Build2">
           <div class="map-card-content">
-            <h4>Horror Build2</h4>
+            <h4>Horror Build 2</h4>
             <p>Detailed wall section equipped with ventilation fans, intricate cabling, and industrial plating.</p>
           </div>
         </div>
         <div class="map-card">
           <img src="Horror Build3.png" alt="Horror Build3">
           <div class="map-card-content">
-            <h4>Horror Build3</h4>
+            <h4>Horror Build 3</h4>
             <p>Angled view emphasizing the machinery, fans, and mechanical infrastructure of the horror environment.</p>
           </div>
         </div>
@@ -610,10 +551,10 @@
 </section>
 
 <!-- CRAFT / SKILLS -->
-<section id="craft" class="section">
+<section id="craft" class="section alt">
   <div class="sec-head reveal">
     <div>
-      <div class="sec-index"><span class="b"></span> 04 — Craft</div>
+      <div class="sec-index"><span class="b"></span> 05 — Craft</div>
       <h2 class="sec-title">Capabilities</h2>
     </div>
     <p class="sec-note">Hover a discipline for the detail. Honest about the range.</p>
@@ -622,10 +563,10 @@
 </section>
 
 <!-- FEEDBACK / REVIEWS -->
-<section id="feedback" class="section alt">
+<section id="feedback" class="section">
   <div class="sec-head reveal">
     <div>
-      <div class="sec-index"><span class="b"></span> 05 — Field notes</div>
+      <div class="sec-index"><span class="b"></span> 06 — Field notes</div>
       <h2 class="sec-title">Client Reviews</h2>
     </div>
     <p class="sec-note">Real messages from real clients. Straight from Discord.</p>
@@ -639,10 +580,10 @@
 </section>
 
 <!-- ABOUT -->
-<section id="about" class="section">
+<section id="about" class="section alt">
   <div class="sec-head reveal">
     <div>
-      <div class="sec-index"><span class="b"></span> 06 — About</div>
+      <div class="sec-index"><span class="b"></span> 07 — About</div>
       <h2 class="sec-title">The Developer</h2>
     </div>
     <p class="sec-note">Clean, modular systems. Built to feel good to play.</p>
@@ -686,7 +627,6 @@
 </div>
 
 <script>
-/* ============ DATA (edit here to add / remove) ============ */
 const WORK = [
   { idx:'01', size:'feature', title:'FPS Combat System', cat:'FPS / Combat', yt:'4IwjMDdCbUs',
     role:'Systems / Gameplay', tools:['Roblox Studio','Luau'],
@@ -723,7 +663,6 @@ const CRAFT = [
 
 const cornerHTML = '<span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>';
 
-/* ============ IMAGE SLOT LOADER ============ */
 function loadSlot(slot){
   const img=slot.querySelector('img'); const src=slot.dataset.src;
   if(!img||!src){ slot.classList.add('failed'); return; }
@@ -731,7 +670,6 @@ function loadSlot(slot){
 }
 function ytThumb(id){ return `https://img.youtube.com/vi/${id}/maxresdefault.jpg`; }
 
-/* ============ WORK ============ */
 const wg=document.getElementById('work-grid');
 WORK.forEach(p=>{
   const el=document.createElement('article');
@@ -769,7 +707,6 @@ document.querySelectorAll('.work-media').forEach(m=>{
   m.addEventListener('mouseleave',()=>{ img.style.transform=''; });
 });
 
-/* ============ CRAFT ============ */
 const cl=document.getElementById('craft-list');
 CRAFT.forEach(([i,name,desc])=>{
   const el=document.createElement('div'); el.className='craft';
@@ -777,17 +714,16 @@ CRAFT.forEach(([i,name,desc])=>{
   cl.appendChild(el);
 });
 
-/* ============ SLOTS: feedback + hero ============ */
 document.querySelectorAll('#feedback-rail .slot').forEach(loadSlot);
 document.querySelectorAll('#hero .slot').forEach(loadSlot);
+document.querySelectorAll('.map-card .featured-card img').forEach(loadSlot);
 
-/* ============ CASE STUDY ============ */
 const caseEl=document.getElementById('case'), caseInner=document.getElementById('case-inner');
 function openCase(idx){
   const p=WORK.find(w=>w.idx===idx); if(!p)return;
   const media=p.yt
     ? `<div class="case-hero">${cornerHTML}<iframe src="https://www.youtube.com/embed/${p.yt}?rel=0" title="${p.title}" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`
-    : `<div class="case-hero slot" data-src="${p.img}"><img alt="${p.title}"/><div class="ph" style="display:flex"><span class="ph-top">${p.cat}</span><span class="ph-name">${p.title} — add ${p.img}</span></div></div>`;
+    : `<div class="case-hero slot" data-src="${p.img}"><img alt="${p.title}"/><div class="ph" style="display:flex"><span class="ph-top">${p.cat}</span><span class="ph-name">${p.title}</span></div></div>`;
   caseInner.innerHTML=`
     <div class="case-eyebrow"><span class="b"></span><span class="mono">${p.idx} — ${p.cat}</span></div>
     <h2 class="case-title">${p.title}</h2>
@@ -807,17 +743,14 @@ document.getElementById('case-close').addEventListener('click',closeCase);
 caseEl.addEventListener('click',e=>{ if(e.target===caseEl) closeCase(); });
 window.addEventListener('keydown',e=>{ if(e.key==='Escape') closeCase(); });
 
-/* ============ NAV compact + scrollspy ============ */
 const nav=document.getElementById('nav');
 window.addEventListener('scroll',()=>{ nav.classList.toggle('compact',window.scrollY>40); },{passive:true});
 const spy=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ document.querySelectorAll('.nav-mid a').forEach(a=>a.classList.toggle('active',a.dataset.sp===e.target.id)); } }); },{rootMargin:'-45% 0px -50% 0px'});
-['work','about','environments','craft','feedback','contact'].forEach(id=>{ const s=document.getElementById(id); if(s)spy.observe(s); });
+['work','graphics','environments','craft','feedback','about','contact'].forEach(id=>{ const s=document.getElementById(id); if(s)spy.observe(s); });
 
-/* ============ REVEAL ============ */
 const rev=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); rev.unobserve(e.target); } }); },{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>rev.observe(el));
 
-/* ============ CURSOR TAG ============ */
 const tag=document.getElementById('cursor-tag');
 if(window.matchMedia('(pointer:fine)').matches){
   document.querySelectorAll('.work').forEach(w=>{
@@ -827,7 +760,6 @@ if(window.matchMedia('(pointer:fine)').matches){
   window.addEventListener('mousemove',e=>{ tag.style.left=e.clientX+'px'; tag.style.top=e.clientY+'px'; });
 }
 
-/* ============ In-page nav ============ */
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
   a.addEventListener('click',e=>{
     const id=a.getAttribute('href').slice(1); if(!id) return;
@@ -838,7 +770,6 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
   });
 });
 
-/* ============ CURSOR GLOW ============ */
 (function(){
   if(!window.matchMedia('(pointer:fine)').matches) return;
   const g=document.getElementById('cursor-glow');
