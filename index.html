@@ -170,7 +170,7 @@
   .ph .ph-top{ font-family:var(--mono); font-size:.6rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
   .ph .ph-name{ font-family:var(--disp); font-weight:700; font-size:clamp(1rem,2.4vw,1.5rem); color:var(--ink-2); }
 
-  /* ---------- MAP & GRAPHICS SHOWCASE SECTIONS ---------- */
+  /* ---------- MAP SHOWCASE SECTIONS ---------- */
   .map-showcase { max-width: 100%; }
   .category-section { margin-bottom: 40px; }
   .category-section h3 {
@@ -209,32 +209,6 @@
   .map-card-content { padding: 15px; }
   .map-card h4 { margin: 0 0 8px 0; font-size: 1.2rem; font-family: var(--disp); }
   .map-card p { margin: 0; font-size: 0.9rem; color: #9ca3af; line-height: 1.4; font-family: var(--mono); }
-
-  .featured-card {
-    grid-column: 1 / -1;
-    display: flex;
-    flex-direction: row;
-    background: linear-gradient(135deg, #1a1c23 0%, #252836 100%);
-    border: 1px solid var(--accent);
-  }
-  .featured-card img {
-    width: 50%;
-    height: auto;
-    min-height: 250px;
-    border-bottom: none;
-    border-right: 1px solid #2d3748;
-    object-fit: cover;
-  }
-  .featured-card .map-card-content {
-    padding: 25px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  @media (max-width: 768px) {
-    .featured-card { flex-direction: column; }
-    .featured-card img { width: 100%; height: 200px; border-right: none; border-bottom: 1px solid #2d3748; }
-  }
 
   /* ---------- WORK ---------- */
   #work-grid{ display:grid; grid-template-columns:repeat(12,1fr); gap:clamp(1rem,1.5vw,1.5rem); }
@@ -373,7 +347,6 @@
     <li><a href="#about" data-sp="about">About</a></li>
     <li><a href="#work" data-sp="work">Demos</a></li>
     <li><a href="#environments" data-sp="environments">Worlds</a></li>
-    <li><a href="#graphics" data-sp="graphics">Graphics</a></li>
     <li><a href="#craft" data-sp="craft">Skills</a></li>
     <li><a href="#feedback" data-sp="feedback">Reviews</a></li>
   </ul>
@@ -400,9 +373,9 @@
         <span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>
         <span class="plus tl"></span><span class="plus br"></span>
         <span class="hud-tri"></span>
-        <div class="slot" data-src="Spider-Noir Icon.jfif" data-label="SPIDER-NOIR · GRAPHIC">
-          <img alt="Spider-Noir Artwork" loading="eager"/>
-          <div class="ph"><span class="ph-top">Graphic Art</span><span class="ph-name">Spider-Noir</span></div>
+        <div class="slot" data-src="Lobby Build.png" data-label="LOBBY · PREVIEW">
+          <img alt="Lobby Build Preview" loading="eager"/>
+          <div class="ph"><span class="ph-top">World Preview</span><span class="ph-name">Lobby Build</span></div>
         </div>
         <div class="hud-foot">
           <span class="segs"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></span>
@@ -440,7 +413,7 @@
 <section id="work" class="section">
   <div class="sec-head reveal">
     <div>
-      <div class="sec-index"><span class="b"></span> 02 — Selected work</div>
+      <div class="sec-index"><span class="b"></span> 01 — Selected work</div>
       <h2 class="sec-title">Systems &amp; Demos</h2>
     </div>
     <p class="sec-note">Live demos of gameplay systems built from scratch. Tap any piece for the full breakdown.</p>
@@ -448,37 +421,11 @@
   <div id="work-grid" class="reveal"></div>
 </section>
 
-<!-- GRAPHICS & ARTWORK SECTION (CORRECTED) -->
-<section id="graphics" class="section alt">
-  <div class="sec-head reveal">
-    <div>
-      <div class="sec-index"><span class="b"></span> 03 — Visuals</div>
-      <h2 class="sec-title">Graphics &amp; Artwork</h2>
-    </div>
-    <p class="sec-note">Character renders, atmospheric post-processing, and custom graphics.</p>
-  </div>
-  
-  <div class="map-showcase reveal">
-    <div class="category-section">
-      <h3>🎨 Character &amp; Poster Art</h3>
-      <div class="map-grid">
-        <div class="map-card featured-card">
-          <img src="Spider-Noir Icon.jfif" alt="Spider-Noir Graphic">
-          <div class="map-card-content">
-            <h4>Spider-Noir Graphic Art</h4>
-            <p>Atmospheric stylized character showcase featuring dramatic lighting, halftone texture details, and cinematic composition aesthetics.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ENVIRONMENTS / MAPS -->
-<section id="environments" class="section">
+<section id="environments" class="section alt">
   <div class="sec-head reveal">
     <div>
-      <div class="sec-index"><span class="b"></span> 04 — Environments</div>
+      <div class="sec-index"><span class="b"></span> 02 — Environments</div>
       <h2 class="sec-title">Worlds &amp; Maps</h2>
     </div>
     <p class="sec-note">Interiors, horror sets and template worlds. Layout, lighting and set dressing.</p>
@@ -551,10 +498,10 @@
 </section>
 
 <!-- CRAFT / SKILLS -->
-<section id="craft" class="section alt">
+<section id="craft" class="section">
   <div class="sec-head reveal">
     <div>
-      <div class="sec-index"><span class="b"></span> 05 — Craft</div>
+      <div class="sec-index"><span class="b"></span> 03 — Craft</div>
       <h2 class="sec-title">Capabilities</h2>
     </div>
     <p class="sec-note">Hover a discipline for the detail. Honest about the range.</p>
@@ -563,10 +510,10 @@
 </section>
 
 <!-- FEEDBACK / REVIEWS -->
-<section id="feedback" class="section">
+<section id="feedback" class="section alt">
   <div class="sec-head reveal">
     <div>
-      <div class="sec-index"><span class="b"></span> 06 — Field notes</div>
+      <div class="sec-index"><span class="b"></span> 04 — Field notes</div>
       <h2 class="sec-title">Client Reviews</h2>
     </div>
     <p class="sec-note">Real messages from real clients. Straight from Discord.</p>
@@ -580,10 +527,10 @@
 </section>
 
 <!-- ABOUT -->
-<section id="about" class="section alt">
+<section id="about" class="section">
   <div class="sec-head reveal">
     <div>
-      <div class="sec-index"><span class="b"></span> 07 — About</div>
+      <div class="sec-index"><span class="b"></span> 05 — About</div>
       <h2 class="sec-title">The Developer</h2>
     </div>
     <p class="sec-note">Clean, modular systems. Built to feel good to play.</p>
@@ -602,7 +549,7 @@
 </section>
 
 <!-- CONTACT -->
-<section id="contact" class="section">
+<section id="contact" class="section alt">
   <p class="contact-kicker reveal">Have a project in mind?</p>
   <h2 class="contact-big reveal">LET'S<br>BUILD IT<i>.</i></h2>
   <div class="contact-rows reveal">
@@ -716,7 +663,6 @@ CRAFT.forEach(([i,name,desc])=>{
 
 document.querySelectorAll('#feedback-rail .slot').forEach(loadSlot);
 document.querySelectorAll('#hero .slot').forEach(loadSlot);
-document.querySelectorAll('.map-card .featured-card img').forEach(loadSlot);
 
 const caseEl=document.getElementById('case'), caseInner=document.getElementById('case-inner');
 function openCase(idx){
@@ -746,7 +692,7 @@ window.addEventListener('keydown',e=>{ if(e.key==='Escape') closeCase(); });
 const nav=document.getElementById('nav');
 window.addEventListener('scroll',()=>{ nav.classList.toggle('compact',window.scrollY>40); },{passive:true});
 const spy=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ document.querySelectorAll('.nav-mid a').forEach(a=>a.classList.toggle('active',a.dataset.sp===e.target.id)); } }); },{rootMargin:'-45% 0px -50% 0px'});
-['work','graphics','environments','craft','feedback','about','contact'].forEach(id=>{ const s=document.getElementById(id); if(s)spy.observe(s); });
+['work','environments','craft','feedback','about','contact'].forEach(id=>{ const s=document.getElementById(id); if(s)spy.observe(s); });
 
 const rev=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); rev.unobserve(e.target); } }); },{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>rev.observe(el));
