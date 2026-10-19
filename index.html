@@ -853,7 +853,6 @@ function nextHead(){
 headImg.onerror=nextHead;
 nextHead();
 
-const SPIN_DEG_PER_SEC=60; // one full turn every 6 seconds — raise to spin faster
 (function headFollow(){
   const wrap=document.getElementById('headWrap'), shadow=document.getElementById('headShadow');
   const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
@@ -876,7 +875,7 @@ const SPIN_DEG_PER_SEC=60; // one full turn every 6 seconds — raise to spin fa
       }
       cx+=(tx-cx)*.09; cy+=(ty-cy)*.09;
       const t=now/1000, bob=reduce?0:Math.sin(t*1.3)*16;                 // floating
-      const spin=(reduce||headStage.classList.contains('is-anim'))?0:(t*SPIN_DEG_PER_SEC)%360; // animated idle doesn't spin                         // continuous spin
+      const spin=0; // no spin — flat pictures look wrong edge-on; the animated idle brings it to life                         // continuous spin
       wrap.style.transform=`translate3d(0,${bob.toFixed(2)}px,0) rotateY(${spin.toFixed(2)}deg)`;
       const lift=(bob+16)/32, edge=Math.abs(Math.cos(spin*Math.PI/180));   // shadow narrows when side-on
       shadow.style.transform=`scale(${((1.05-lift*.3)*(.55+.45*edge)).toFixed(3)},1)`;
