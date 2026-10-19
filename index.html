@@ -825,9 +825,8 @@ document.querySelectorAll('.ransom').forEach(ransom);
 const ROBLOX_ID=4057144006;
 const headImg=document.getElementById('headImg'), headStage=document.getElementById('headStage');
 const CACHED_HEAD='https://t5.rbxcdn.com/30DAY-AvatarHeadshot-3C776EE14E0A3CD0FB0C033B9EE4701E-Png';
-// Load order: avatar.webp (your animated idle) → avatar.png in your repo → live full-body render → head.png → live headshot → cached headshot → "G"
+// Load order: avatar.png in your repo → live full-body render → head.png → live headshot → cached headshot → "G"
 const steps=[
-  ()=>Promise.resolve('avatar.webp'),
   ()=>Promise.resolve('avatar.png'),
   ()=>liveThumb('avatar'),
   ()=>Promise.resolve('head.png'),
@@ -848,7 +847,7 @@ let step=0;
 function nextHead(){
   if(step>=steps.length){ headStage.classList.add('noimg'); return; }
   const i=step++;
-  steps[i]().then(src=>{ headStage.classList.toggle('is-anim',i===0); headStage.classList.toggle('is-head',i>=3); headImg.src=src; }).catch(nextHead);
+  steps[i]().then(src=>{ headStage.classList.toggle('is-head',i>=2); headImg.src=src; }).catch(nextHead);
 }
 headImg.onerror=nextHead;
 nextHead();
@@ -874,7 +873,7 @@ nextHead();
         const t=now/1000; tx=Math.sin(t*.55)*.45; ty=Math.sin(t*.9)*.18;
       }
       cx+=(tx-cx)*.09; cy+=(ty-cy)*.09;
-      const t=now/1000, bob=reduce?0:Math.sin(t*1.3)*16;                 // floating
+      const bob=0;                                                         // static — no float
       const spin=0; // no spin — flat pictures look wrong edge-on; the animated idle brings it to life                         // continuous spin
       wrap.style.transform=`translate3d(0,${bob.toFixed(2)}px,0) rotateY(${spin.toFixed(2)}deg)`;
       const lift=(bob+16)/32, edge=Math.abs(Math.cos(spin*Math.PI/180));   // shadow narrows when side-on
